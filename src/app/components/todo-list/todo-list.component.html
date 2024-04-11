@@ -1,11 +1,12 @@
 <h1>ToDo List</h1>
 <ul class="todo-cont">
     <li *ngFor="let item of items" class="todo-item">
-        <span>{{ item.text }}</span>
-        <button class="btn-del" (click)="onDeleteItem(item)">Delete</button>
+        <app-todo-list-item [data]="item" (deleted)="onDeleteItem(item)"/>
     </li>
 </ul>
 <div class="todo-item-input">
-    <input type="text" placeholder="Add your new todo" [ngModel]="newItemText" (ngModelChange)="newItemTextChanged($event)">
-    <button class="btn-add" [disabled]="allowNewItemAdd()" (click)="onAddItem()">Add</button>
+    <input type="text" placeholder="Add your new todo" [(ngModel)]="newItemText">
+    <button class="btn-add" 
+            [disabled]="!isNewItemDataValid()" 
+            (click)="onAddItem()">Add</button>
 </div>

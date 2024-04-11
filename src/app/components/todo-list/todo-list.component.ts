@@ -1,9 +1,5 @@
 import { Component, EventEmitter } from '@angular/core';
-
-interface ToDoItem {
-  id: number,
-  text: string
-}
+import { ToDoItem } from '../../models/to-do-item.interface';
 
 @Component({
   selector: 'app-todo-list',
@@ -11,19 +7,14 @@ interface ToDoItem {
   styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent {
-  items: ToDoItem[] = [{id: 1, text: 'do homework'}, 
-                       {id: 2, text: 'feed a cat'},
-                       {id: 4, text: 'watch movie'},
-                       {id: 5, text: 'watch another movie'}];
+  items: ToDoItem[] = [{id: 1, text: 'Выполнить домашнее задание'}, 
+                       {id: 4, text: 'Переобуть машину'}, 
+                       {id: 6, text: 'Записаться на ТО'}];
 
   newItemText: string = '';
 
-  newItemTextChanged(text: string): void {
-    this.newItemText = text;
-  }
-
-  allowNewItemAdd(): boolean {
-    return (this.newItemText.trim().length === 0);
+  isNewItemDataValid(): boolean {
+    return this.newItemText.trim().length > 0;
   }
 
   private newItemId(): number {
