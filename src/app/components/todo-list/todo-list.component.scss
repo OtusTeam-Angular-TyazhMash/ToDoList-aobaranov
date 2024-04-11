@@ -65,30 +65,38 @@
     box-shadow: inset 0px 0px 5px rgb(200, 200, 200);
 }
 
-.btn-del {
+button {
     float: right;
+
+    min-width: 15%;
+    height: 24px;
     
-    border: solid;
+    border: none;
     border-width: 1px;
     border-radius: 3px;
     border-color: #808080;
     outline: none;
 
-    min-width: 15%;
+    color: white;
+}
 
+button:disabled {
+    opacity: 0.5;
+}
+
+.btn-del {
+    transition: all 0.2s ease;
+
+    color: lightgray;
+    background-color: transparent;
+}
+
+.btn-del:hover {
+    color: white;
     background-color: #e06565;
 }
 
 .btn-add {
-    float: right;    
-    
-    border: solid;
-    border-width: 1px;
-    border-radius: 3px;
-    border-color: #808080;
-    outline: none;
-
-    min-width: 15%;
-
+    color: white;
     background-color: #5ccc5c;
 }
