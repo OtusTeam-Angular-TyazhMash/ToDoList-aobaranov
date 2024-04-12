@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ToDoItem } from '../../models/to-do-item.interface';
+import { TodoItem } from '../../interfaces/todo-item.interface';
 
 @Component({
   selector: 'app-todo-list-item',
@@ -7,7 +7,7 @@ import { ToDoItem } from '../../models/to-do-item.interface';
   styleUrls: ['./todo-list-item.component.scss']
 })
 export class TodoListItemComponent {
-  @Input() data!: ToDoItem;
+  @Input({required: true}) data!: TodoItem;
   @Output() deleted = new EventEmitter();
 
   onDeleteClick(): void {

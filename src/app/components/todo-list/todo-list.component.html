@@ -6,7 +6,5 @@
 </ul>
 <div class="todo-item-input">
     <input type="text" placeholder="Add your new todo" [(ngModel)]="newItemText">
-    <button class="btn-add" 
-            [disabled]="!isNewItemDataValid()" 
-            (click)="onAddItem()">Add</button>
+    <button class="btn-add" [disabled]="!isNewItemDataValid()" (click)="onAddItem()">Add</button>
 </div>
