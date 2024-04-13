@@ -23,8 +23,8 @@ export class TodoListComponent {
     return maxId + 1;
   }
 
-  onDeleteItem(item: TodoItem): void {
-    let idx: number = this.items.indexOf(item);
+  onDeleteItem(id: number): void {
+    let idx: number = this.items.findIndex(item => item.id === id);
     if (idx > -1) {
       this.items.splice(idx, 1);
     }

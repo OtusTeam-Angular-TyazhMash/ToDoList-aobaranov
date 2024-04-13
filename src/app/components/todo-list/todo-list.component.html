@@ -1,7 +1,7 @@
 <h1>ToDo List</h1>
 <ul class="todo-cont">
     <li *ngFor="let item of items" class="todo-item">
-        <app-todo-list-item [data]="item" (deleted)="onDeleteItem(item)"/>
+        <app-todo-list-item [data]="item" (deleted)="onDeleteItem(item.id)"/>
     </li>
 </ul>
 <div class="todo-item-input">
