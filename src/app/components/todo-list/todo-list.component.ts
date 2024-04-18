@@ -1,30 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TodoItem } from '../../interfaces/todo-item.interface';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.scss']
+  styleUrls: ['./todo-list.component.scss'],
 })
-export class TodoListComponent {
+export class TodoListComponent implements OnInit {
   items: TodoItem[] = [{id: 1, text: 'Выполнить домашнее задание'}, 
-                       {id: 4, text: 'Переобуть машину'}, 
+                       {id: 7, text: 'Переобуть машину'}, 
                        {id: 6, text: 'Записаться на ТО'}];
 
-  newItemText: string = '';
+  newItemText = '';
+
+  isLoading = true;
+
+  ngOnInit(): void {
+    setTimeout(() => this.isLoading = false, 500);
+  }
 
   isNewItemDataValid(): boolean {
     return this.newItemText.trim().length > 0;
   }
 
   private newItemId(): number {
-    let maxId: number = 0;
+    let maxId = 0;
     this.items.forEach(item => maxId = Math.max(maxId, item.id));
     return maxId + 1;
   }
 
   onDeleteItem(id: number): void {
-    let idx: number = this.items.findIndex(item => item.id === id);
+    const idx: number = this.items.findIndex(item => item.id === id);
     if (idx > -1) {
       this.items.splice(idx, 1);
     }

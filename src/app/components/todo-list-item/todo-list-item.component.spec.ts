@@ -8,7 +8,7 @@ describe('TodoListItemComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TodoListItemComponent]
+      declarations: [TodoListItemComponent],
     });
     fixture = TestBed.createComponent(TodoListItemComponent);
     component = fixture.componentInstance;
