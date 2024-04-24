@@ -5,8 +5,10 @@
             [tooltip]="item.description"
             [tooltipDelay]="3000"
             class="todo-item" 
+            tabindex="0"
             [class.selected]="isItemSelected(item.id)"
-            (click)="onClickItem(item.id)">
+            (click)="onClickItem(item.id)"
+            (keydown.space)="onClickItem(item.id)">
             <app-todo-list-item 
                 [data]="item" 
                 (deleted)="onDeleteItem($event)"/>

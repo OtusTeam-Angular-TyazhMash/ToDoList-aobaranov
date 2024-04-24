@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoItem } from '../../interfaces/todo-item.interface';
-import { TodoListItemComponent } from '../todo-list-item/todo-list-item.component';
 
 @Component({
   selector: 'app-todo-list',
