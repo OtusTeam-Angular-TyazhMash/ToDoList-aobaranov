@@ -14,7 +14,7 @@ button {
     background-color:  darkgray;
 }
 
-button:hover:not([disabled]) {
+button:hover:not([disabled]), button:focus:not([disabled]) {
     background-color: rgb(150, 150, 150);
 }
 
@@ -27,7 +27,7 @@ button:hover:not([disabled]) {
     background-color: transparent;
 }
 
-.delete:hover:not([disabled]) {
+.delete:hover:not([disabled]), .delete:focus:not([disabled]) {
     color: white;
     background-color: #e06565;
 }
@@ -37,6 +37,6 @@ button:hover:not([disabled]) {
     background-color: #5ccc5c;
 }
 
-.add:hover:not([disabled]) {
+.add:hover:not([disabled]), .add:focus:not([disabled]) {
     background-color: #43a743;
 }

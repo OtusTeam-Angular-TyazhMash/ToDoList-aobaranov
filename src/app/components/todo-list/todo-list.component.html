@@ -1,11 +1,45 @@
-<h1>ToDo List</h1>
-<ul class="todo-container" [hidden]="isLoading">
-    <li *ngFor="let item of items" class="todo-item">
-        <app-todo-list-item [data]="item" (deleted)="onDeleteItem($event)"/>
-    </li>
-</ul>
-<div class="todo-item-input" [hidden]="isLoading">
-    <input type="text" placeholder="Add your new todo" [(ngModel)]="newItemText">
-    <app-button type="add" title="Add" [disabled]="!isNewItemDataValid()" (clicked)="onAddItem()"/>
+<h1 class="todo-list-header">ToDo List</h1>
+<div class="column-items-list" [hidden]="isLoading">
+    <ul class="todo-container">
+        <li *ngFor="let item of items" 
+            [tooltip]="item.description"
+            [tooltipDelay]="3000"
+            class="todo-item" 
+            [class.selected]="isItemSelected(item.id)"
+            (click)="onClickItem(item.id)">
+            <app-todo-list-item 
+                [data]="item" 
+                (deleted)="onDeleteItem($event)"/>
+        </li>
+    </ul>
+    <div class="todo-item-input">
+        <mat-form-field>
+            <input 
+                matInput
+                type="text" 
+                placeholder="Add your new todo" 
+                [(ngModel)]="newItemText"
+                (keydown.enter)="onAddItem()"/>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea
+                matInput
+                rows="3"
+                placeholder="Description"
+                [(ngModel)]="newItemDescription"
+                (keydown.control.enter)="onAddItem()"></textarea>
+        </mat-form-field>
+        <app-button 
+            tooltip="Add new todo item"
+            type="add" 
+            [title]="'Add'" 
+            [disabled]="!isNewItemDataValid()" 
+            (clicked)="onAddItem()"/>
+    </div>
 </div>
-<app-loading-spinner [hidden]="!isLoading"/>
+<div class="column-item-view" [hidden]="!isItemCardShowing()">
+    <div class="todo-card">
+        <p class="todo-description">{{ getSelectedItemDescription() }}</p>
+    </div>
+</div>
+<app-loading-spinner class="loading-spinner" [hidden]="!isLoading"/>

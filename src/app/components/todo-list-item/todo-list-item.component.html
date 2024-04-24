@@ -1,2 +1,6 @@
 <span>{{ data.text }}</span>
-<app-button type="delete" title="Delete" (clicked)="onDeleteClick()"/>
+<app-button 
+    type="delete" 
+    [tooltip]="'delete this item'"
+    [title]="'Delete'" 
+    (clicked)="onDeleteClick()"/>
