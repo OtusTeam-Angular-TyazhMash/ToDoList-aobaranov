@@ -40,3 +40,12 @@ button:hover:not([disabled]), button:focus:not([disabled]) {
 .add:hover:not([disabled]), .add:focus:not([disabled]) {
     background-color: #43a743;
 }
+
+.edit {
+    color: white;
+    background-color: #ffd200;
+}
+
+.edit:hover:not([disabled]), .edit:focus:not([disabled]) {
+    background-color: #cea800;
+}
