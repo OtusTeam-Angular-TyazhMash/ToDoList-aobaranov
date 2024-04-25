@@ -3,6 +3,12 @@
 
     display: grid;
 
+    grid-template-columns: 512px auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: 
+        "header header"
+        "list card";
+
     border-style: solid;
     border-radius: 4px;
     border-width: 1px;
@@ -13,14 +19,54 @@
     box-shadow: 0px 0px 16px lightgray;
 }
 
-.todo-cont {
+.todo-list-header {
+    grid-area: header;
+}
+
+.column-item-view {
+    margin-top: 8px;
+    margin-left: 8px;
+    min-width: 400px;
+
+    grid-area: card;
+
+    .todo-card {
+
+        width: 100%;
+        height: 100%;
+
+        border-style: solid;
+        border-radius: 4px;
+        border-width: 1px;
+        border-color: lightgray;
+        
+        box-shadow: 0px 0px 4px lightgray;
+
+        .todo-description {
+            position: relative;
+
+            width: 100%;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            text-align: center;
+        }
+    }
+}
+
+.column-items-list {
+    grid-area: list;
+}
+
+.todo-container {
     border-radius: 4px;
 
     .todo-item {
         margin-top: 8px;
         padding: 8px;
 
-        width: auto;
+        min-height: 24px;
 
         border-style: solid;
         border-radius: 4px;
@@ -34,6 +80,11 @@
 
     .todo-item:hover {
         box-shadow: 0px 0px 5px rgb(200, 200, 200);
+        background-color: #eff0ed;
+    }
+
+    .todo-item.selected {
+        background-color: #dbdcd9;
     }
 }
 
@@ -48,61 +99,38 @@
     border-width: 1px;
     border-color: lightgray;
 
-    box-shadow: inset 0px 0px  4px #ececec;
+    box-shadow: 0px 0px  4px lightgray;
 
-    input {
-        width: 80%;
+    overflow: hidden;
 
-        border-style: none;
+    mat-form-field {
+        width: 100%;
     }
 
-    input:focus {
-        outline: none;
-    }
-}
+    * {
+        input {
+            width: 100%;
 
-.todo-item-input:hover {
-    box-shadow: inset 0px 0px 5px rgb(200, 200, 200);
+            border-style: none;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        textarea {
+            width: 100%;
+        }
+    }
 }
 
 ::ng-deep {
-    button {
-        float: right;
-
-        min-width: 15%;
-        height: 24px;
+    app-button {
+        margin-left: 8px;
         
-        border: none;
-        border-radius: 3px;
-        border-width: 1px;
-        border-color: #808080;
-        outline: none;
-
-        color: white;
-    }
-
-    button:disabled {
-        opacity: 0.5;
-    }
-
-    .btn-del {
-        transition: all 0.2s ease;
-
-        color: lightgray;
-        background-color: transparent;
-    }
-
-    .btn-del:hover {
-        color: white;
-        background-color: #e06565;
-    }
-
-    .btn-add {
-        color: white;
-        background-color: #5ccc5c;
-    }
-
-    .btn-add:hover:not([disabled]) {
-        background-color: #43a743;
+        float: right;
+    
+        min-width: 15%;
+        min-height: 24px;
     }
 }

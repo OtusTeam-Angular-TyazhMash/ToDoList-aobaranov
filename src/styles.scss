@@ -19,9 +19,8 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 
-body {
-    font-family: "Segoe UI", Roboto, Tahoma;
-}
+html, body { height: 100%; }
+body { font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 h1 {
     font-size: 1.4rem;
