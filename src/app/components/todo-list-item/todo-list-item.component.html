@@ -1,6 +1,21 @@
-<span>{{ data.text }}</span>
-<app-button 
-    type="delete" 
-    [tooltip]="'delete this item'"
-    [title]="'Delete'" 
-    (clicked)="onDeleteClick()"/>
+<ng-container *ngIf="mode !== 'edit'; else editTemplate">
+    <span>{{ data.text }}</span>
+    <app-button 
+        type="delete" 
+        [tooltip]="'delete this item'"
+        [title]="'Delete'" 
+        (clicked)="onDeleteClick()"/>
+</ng-container>
+
+<ng-template #editTemplate>
+    <input 
+        type="text" 
+        [(ngModel)]="editText"
+        (keydown.enter)="onSaveClick()"
+        (keydown.esc)="onCancelClick()"/> 
+    <app-button 
+        type="edit" 
+        [tooltip]="'save changes'"
+        [title]="'Save'" 
+        (clicked)="onSaveClick()"/>    
+</ng-template>

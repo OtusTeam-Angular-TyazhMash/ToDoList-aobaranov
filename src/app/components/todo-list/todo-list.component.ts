@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoItem } from '../../interfaces/todo-item.interface';
+import { 
+  TodoManagerService,
+  ReadonlyTodoArray,     
+} from 'src/app/services/todo-manager.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -7,16 +12,34 @@ import { TodoItem } from '../../interfaces/todo-item.interface';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  items: TodoItem[] = [{id: 1, text: 'Todo item 1', description: 'description for todo 1'}, 
-                       {id: 7, text: 'Todo item 2', description: 'description for todo 2'}, 
-                       {id: 6, text: 'Todo item 3', description: 'description for todo 3'}];
+  
+  constructor(
+    private todoManager: TodoManagerService,
+    private toastService: ToastService) { }
 
   newItemText = '';
   newItemDescription = '';
 
-  private selectedItemId: number | null = null;
-
   isLoading = true;
+
+  private editingItemId: number | null = null;
+
+  private _selectedItemId: number | null = null;
+
+  get selectedItemId(): number | null {
+    return this._selectedItemId;
+  }
+
+  set selectedItemId(value: number | null) {
+    if (this.selectedItemId !== value) {
+      this._selectedItemId = value;
+      this.editingItemId = null;
+    }
+  }
+
+  getItems(): ReadonlyTodoArray {
+    return this.todoManager.getItems();
+  }
 
   ngOnInit(): void {
     setTimeout(() => this.isLoading = false, 500);
@@ -26,56 +49,66 @@ export class TodoListComponent implements OnInit {
     return this.selectedItemId === id;
   }
 
-  private getItemById(id: number): TodoItem | undefined {
-    return this.items.find(item => item.id === id);
-  }
-
   isNewItemDataValid(): boolean {
-    return this.newItemText.trim().length > 0;
+    return this.todoManager.isItemDataValid(this.newItemText, this.newItemDescription);
   }
 
   isItemCardShowing(): boolean {
-    return this.items.length > 0 && !this.isLoading;
+    return this.getItems().length > 0 && !this.isLoading;
   }
 
-  private newItemId(): number {
-    let maxId = 0;
-    this.items.forEach(item => maxId = Math.max(maxId, item.id));
-    return maxId + 1;
-  }
-
-  onClickItem(id: number) {
+  onClickItem(id: number): void {
     this.selectedItemId = id;
   }
 
-  onDeleteItem(id: number): void {
-    const idx: number = this.items.findIndex(item => item.id === id);
-    if (idx > -1) {
-      this.items.splice(idx, 1);
+  onDblClickItem(id: number): void {
+    this.selectedItemId = id;
+    this.editingItemId = id;
+  }
 
+  isItemEditing(id: number): boolean {
+    return this.editingItemId === id;
+  }
+
+  onDeleteItem(id: number): void {
+    if (this.todoManager.deleteItemById(id)) {
+      this.toastService.showToast('item deleted');
       if (this.isItemSelected(id)) {
         this.selectedItemId = null;
       }
-    }
+    }   
   }
 
   getSelectedItemDescription(): string {
     if (this.selectedItemId !== null) {
-      return this.getItemById(this.selectedItemId)?.description || '';
+      return this.todoManager.getItemById(this.selectedItemId)?.description || '';
     } else {
       return '';
     }
   }
 
   onAddItem(): void {
-    if (this.isNewItemDataValid()) {
-      this.items.push({
-        id: this.newItemId(), 
-        text: this.newItemText, 
-        description: this.newItemDescription});
+    const itemAdded = 
+      this.todoManager.addItem(
+        this.newItemText,
+        this.newItemDescription);
 
+    if (itemAdded) {
+      this.toastService.showToast('new item added');
       this.newItemText = '';
       this.newItemDescription = '';
     }
+  }
+
+  onEditItem(item: TodoItem): void {
+    const itemEdited = this.todoManager.editItem(item);
+    if (itemEdited) {
+      this.toastService.showToast('item edited');
+      this.editingItemId = null;
+    }
+  }
+
+  onCancelEditItem(id: number) {
+    this.editingItemId = null;
   }
 }

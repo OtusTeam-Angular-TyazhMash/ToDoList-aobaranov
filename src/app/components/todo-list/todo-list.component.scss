@@ -76,6 +76,18 @@
         box-shadow: 0px 0px 4px lightgray;
 
         list-style-type: none;
+
+        ::ng-deep {
+            input {
+                width: 80%;
+                border: none;
+
+                font-size: 100%;
+                outline: none;
+                background-color: white;
+            }
+        }
+
     }
 
     .todo-item:hover {
@@ -86,6 +98,7 @@
     .todo-item.selected {
         background-color: #dbdcd9;
     }
+
 }
 
 .todo-item-input {

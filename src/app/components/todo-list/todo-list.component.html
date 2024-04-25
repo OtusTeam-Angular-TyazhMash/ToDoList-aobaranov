@@ -1,17 +1,22 @@
 <h1 class="todo-list-header">ToDo List</h1>
 <div class="column-items-list" [hidden]="isLoading">
     <ul class="todo-container">
-        <li *ngFor="let item of items" 
-            [tooltip]="item.description"
+        <li *ngFor="let item of getItems()" 
+            [tooltip]="item.description || item.text"
             [tooltipDelay]="3000"
             class="todo-item" 
             tabindex="0"
             [class.selected]="isItemSelected(item.id)"
             (click)="onClickItem(item.id)"
-            (keydown.space)="onClickItem(item.id)">
+            (dblclick)="onDblClickItem(item.id)"
+            (keydown.space)="onClickItem(item.id)"
+            (keydown.control.space)="onDblClickItem(item.id)">
             <app-todo-list-item 
                 [data]="item" 
-                (deleted)="onDeleteItem($event)"/>
+                [mode]="isItemEditing(item.id) ? 'edit' : 'view'"
+                (edited)="onEditItem($event)"
+                (deleted)="onDeleteItem($event)"
+                (canceled)="onCancelEditItem($event)"/>
         </li>
     </ul>
     <div class="todo-item-input">

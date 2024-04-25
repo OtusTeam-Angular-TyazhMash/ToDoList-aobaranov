@@ -10,7 +10,7 @@ export class ButtonComponent {
 
   @Input() disabled: boolean | undefined;
 
-  @Input() type: 'add' | 'delete' | undefined;
+  @Input() type: 'add' | 'delete' | 'edit' | undefined;
 
   @Output() clicked = new EventEmitter();
 
