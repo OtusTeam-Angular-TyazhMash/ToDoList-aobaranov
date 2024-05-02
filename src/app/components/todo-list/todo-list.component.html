@@ -19,30 +19,30 @@
                 (canceled)="onCancelEditItem($event)"/>
         </li>
     </ul>
-    <div class="todo-item-input">
-        <mat-form-field>
-            <input 
-                matInput
-                type="text" 
-                placeholder="Add your new todo" 
-                [(ngModel)]="newItemText"
-                (keydown.enter)="onAddItem()"/>
-        </mat-form-field>
-        <mat-form-field>
-            <textarea
-                matInput
-                rows="3"
-                placeholder="Description"
-                [(ngModel)]="newItemDescription"
-                (keydown.control.enter)="onAddItem()"></textarea>
-        </mat-form-field>
-        <app-button 
-            tooltip="Add new todo item"
-            type="add" 
-            [title]="'Add'" 
-            [disabled]="!isNewItemDataValid()" 
-            (clicked)="onAddItem()"/>
-    </div>
+</div>
+<div class="todo-item-input">
+    <mat-form-field>
+        <input 
+            matInput
+            type="text" 
+            placeholder="Add your new todo" 
+            [(ngModel)]="newItemText"
+            (keydown.enter)="onAddItem()"/>
+    </mat-form-field>
+    <mat-form-field>
+        <textarea
+            matInput
+            rows="3"
+            placeholder="Description"
+            [(ngModel)]="newItemDescription"
+            (keydown.control.enter)="onAddItem()"></textarea>
+    </mat-form-field>
+    <app-button 
+        tooltip="Add new todo item"
+        type="add" 
+        [title]="'Add'" 
+        [disabled]="!isNewItemDataValid()" 
+        (clicked)="onAddItem()"/>
 </div>
 <div class="column-item-view" [hidden]="!isItemCardShowing()">
     <div class="todo-card">

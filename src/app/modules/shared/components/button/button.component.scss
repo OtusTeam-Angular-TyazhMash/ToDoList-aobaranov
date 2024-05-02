@@ -1,6 +1,4 @@
 button {
-    position: relative;
-
     width: 100%;
     height: 100%;
     min-width: 24px;
@@ -23,13 +21,13 @@ button:hover:not([disabled]), button:focus:not([disabled]) {
 }
 
 .delete {
-    color: lightgray;
+    color: rgba(0, 0, 0, 0.2);// lightgray;
     background-color: transparent;
 }
 
 .delete:hover:not([disabled]), .delete:focus:not([disabled]) {
     color: white;
-    background-color: #e06565;
+    background-color: rgba(0, 0, 0, 0.15); //#e06565;
 }
 
 .add {
@@ -43,9 +41,9 @@ button:hover:not([disabled]), button:focus:not([disabled]) {
 
 .edit {
     color: white;
-    background-color: #ffd200;
+    background-color: #ffbc40; 
 }
 
 .edit:hover:not([disabled]), .edit:focus:not([disabled]) {
-    background-color: #cea800;
+    background-color: #e4aa3f;
 }

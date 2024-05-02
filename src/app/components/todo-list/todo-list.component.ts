@@ -79,6 +79,12 @@ export class TodoListComponent implements OnInit {
     }   
   }
 
+  onDeleteItemE(event: Event): void {
+    if (typeof event === "number") {
+      this.onDeleteItem((event as number));
+    }   
+  }
+
   getSelectedItemDescription(): string {
     if (this.selectedItemId !== null) {
       return this.todoManager.getItemById(this.selectedItemId)?.description || '';
