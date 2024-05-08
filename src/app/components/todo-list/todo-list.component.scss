@@ -1,28 +1,13 @@
-$border-color: lightgray;
-$border-radius: 4px;
-$shadow-accent-value: 0.5;
-$shadow-ambient-value: 0.35;
-
-@mixin card-borders($color: $border-color, $width: 1px) {
-    border-style: solid;
-    border-radius: $border-radius;
-    border-width: $width;
-    border-color: $color;
-}
-
-@mixin card-shadow($accent-value: $shadow-accent-value, $ambient-value: $shadow-ambient-value) {
-    box-shadow: 
-        0px 1px 0px rgba(0, 0, 0, $accent-value),
-        0px 0px 3px rgba(0, 0, 0, $ambient-value);
-}
+@import '../../styles/theme.scss';
 
 :host {
-    padding: 8px;
+    padding: $standard-gap;
 
+    max-height: 100%;
     display: grid;
 
-    grid-template-columns: 300px auto;//512px auto;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: 45% 55%;
+    grid-template-rows: min-content auto min-content;
     grid-template-areas: 
         "header header"
         "list card"
@@ -30,25 +15,33 @@ $shadow-ambient-value: 0.35;
 
     @include card-borders;
 
-    background-color: #f7f7f7;
+    @include form-content-background;  
 
     @include card-shadow;
 }
 
 .todo-list-header {
+    margin-top: -$standard-gap;
+    margin-left: -$standard-gap;
+    margin-right: -$standard-gap;
+    padding: $standard-gap;
+
     grid-area: header;
+
+
+    @include card-borders($border-color, 0);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    
+    background-color: $card-color;
+    @include card-shadow;
 }
 
-.column-item-view {
-    margin-top: 8px;
-    margin-left: 8px;
-    min-width: 400px;
-
-    grid-area: card;
-
     .todo-card {
-        width: 100%;
-        height: 100%;
+        margin-top: $standard-gap;
+        margin-left: $standard-gap;
+    
+        grid-area: card;
 
         box-sizing: border-box;
 
@@ -56,7 +49,7 @@ $shadow-ambient-value: 0.35;
         
         @include card-shadow;
 
-        background-color: white;
+        background-color: $card-color;
 
         .todo-description {
             position: relative;
@@ -69,60 +62,67 @@ $shadow-ambient-value: 0.35;
             text-align: center;
         }
     }
-}
-
-.column-items-list {
-    grid-area: list;
-}
 
 .todo-container {
+    margin-left: -$standard-gap;
+    margin-right: -$standard-gap;
+    padding-top: $standard-gap;
+    padding-left: $standard-gap;
+    padding-right: $standard-gap;
     list-style-type: none;
 
+    grid-area: list;
+
+    overflow: auto;
+    scrollbar-width: thin;
+
     .todo-item {
-        margin-top: 8px;
-        padding: 8px;
+        margin-bottom: $standard-gap;
+        padding: $standard-gap;
 
-        min-height: 24px;
+        min-height: 3 * $standard-gap;
 
-        @include card-borders($border-color, 0);
-
-        word-break: break-word;
+        @include card-borders($width: 0);
         
         @include card-shadow;
 
-        background-color: white;
+        word-break: break-word;
+
+        overflow: hidden;
+
+        background-color: $list-item-color;
 
         ::ng-deep {
             input {
-                width: auto; //80%;
+                width: auto; 
                 border: none;
 
                 display: inline-block;
                 word-break: break-word;
                 font-size: 100%;
                 outline: none;
-                background-color: white;
+                background-color: $card-color;
             }
         }
 
     }
 
     .todo-item:hover {
-        background-color: #eff0ed;
+        background-color: $list-item-color-hover;
     }
 
     .todo-item.selected {
-        @include card-shadow($shadow-accent-value, 0.65);  //838383 7e7e7e 747474 707070 686868 
+        @include list-item-selected-outline;
 
-        background-color: #dbdcd9;
+        background-color: $list-item-color-selected;
     }
 }
 
 .todo-item-input {
-    margin-top: 16px;
-    padding: 8px;
+    margin-top: calc(2 * $standard-gap);
+    padding: $standard-gap;
 
-    width: auto;
+    align-self: end;
 
     grid-area: input;
 
@@ -130,7 +130,7 @@ $shadow-ambient-value: 0.35;
         
     @include card-shadow;
 
-    background-color: white;
+    background-color: $card-color;
 
     overflow: hidden;
 
@@ -153,15 +153,32 @@ $shadow-ambient-value: 0.35;
             width: 100%;
         }
     }
+    
+    top: 80%;
+}
+
+.todo-item-input.centered {
+    width: 512px;
+
+    grid-area: list / 1 / input / span 2;
+
+    transition-property: top;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 ::ng-deep {
     app-button {
-        margin-left: 8px;
+        margin-left: $standard-gap;
         
         float: right;
     
         min-width: 15%;
-        min-height: 24px;
+        min-height: 3 * $standard-gap;
     }
 }

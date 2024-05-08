@@ -11,14 +11,6 @@ export class TodoManagerService {
 
   private items: TodoItem[] = [{id: 1, text: 'Todo item 1', description: 'description for todo 1'}, 
                                {id: 7, text: 'Todo item 2', description: 'description for todo 2'}, 
-                               {id: 6, text: 'Todo item 3', description: 'description for todo 3'},
-                               {id: 1, text: 'Todo item 1', description: 'description for todo 1'}, 
-                               {id: 7, text: 'Todo item 2', description: 'description for todo 2'}, 
-                               {id: 6, text: 'Todo item 3', description: 'description for todo 3'}, 
-                               {id: 7, text: 'Todo item 2', description: 'description for todo 2'}, 
-                               {id: 6, text: 'Todo item 3', description: 'description for todo 3'},
-                               {id: 1, text: 'Todo item 1', description: 'description for todo 1'}, 
-                               {id: 7, text: 'Todo item 2', description: 'description for todo 2'}, 
                                {id: 6, text: 'Todo item 3', description: 'description for todo 3'}];
 
   private newItemId(): number {

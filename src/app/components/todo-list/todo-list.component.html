@@ -1,26 +1,24 @@
 <h1 class="todo-list-header">ToDo List</h1>
-<div class="column-items-list" [hidden]="isLoading">
-    <ul class="todo-container">
-        <li *ngFor="let item of getItems()" 
-            [tooltip]="item.description || item.text"
-            [tooltipDelay]="3000"
-            class="todo-item" 
-            tabindex="0"
-            [class.selected]="isItemSelected(item.id)"
-            (click)="onClickItem(item.id)"
-            (dblclick)="onDblClickItem(item.id)"
-            (keydown.space)="onClickItem(item.id)"
-            (keydown.control.space)="onDblClickItem(item.id)">
-            <app-todo-list-item 
-                [data]="item" 
-                [mode]="isItemEditing(item.id) ? 'edit' : 'view'"
-                (edited)="onEditItem($event)"
-                (deleted)="onDeleteItem($event)"
-                (canceled)="onCancelEditItem($event)"/>
-        </li>
-    </ul>
-</div>
-<div class="todo-item-input">
+<ul class="todo-container" [hidden]="!isItemCardShowing()">
+    <li *ngFor="let item of getItems()" 
+        [tooltip]="item.description || item.text"
+        [tooltipDelay]="3000"
+        class="todo-item" 
+        tabindex="0"
+        [class.selected]="isItemSelected(item.id)"
+        (click)="onClickItem(item.id)"
+        (dblclick)="onDblClickItem(item.id)"
+        (keydown.space)="onClickItem(item.id)"
+        (keydown.control.space)="onDblClickItem(item.id)">
+        <app-todo-list-item 
+            [data]="item" 
+            [mode]="isItemEditing(item.id) ? 'edit' : 'view'"
+            (edited)="onEditItem($event)"
+            (deleted)="onDeleteItem($event)"
+            (canceled)="onCancelEditItem($event)"/>
+    </li>
+</ul>
+<div class="todo-item-input" [class.centered]="!isItemCardShowing()">
     <mat-form-field>
         <input 
             matInput
@@ -44,9 +42,7 @@
         [disabled]="!isNewItemDataValid()" 
         (clicked)="onAddItem()"/>
 </div>
-<div class="column-item-view" [hidden]="!isItemCardShowing()">
-    <div class="todo-card">
-        <p class="todo-description">{{ getSelectedItemDescription() }}</p>
-    </div>
+<div class="todo-card" [hidden]="!isItemCardShowing()">
+    <p class="todo-description">{{ getSelectedItemDescription() }}</p>
 </div>
 <app-loading-spinner class="loading-spinner" [hidden]="!isLoading"/>
