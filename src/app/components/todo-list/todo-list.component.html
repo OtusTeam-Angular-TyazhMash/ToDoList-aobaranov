@@ -1,6 +1,24 @@
 <h1 class="todo-list-header">ToDo List</h1>
+<div class="filters-container" [hidden]="!isItemCardShowing()">
+    <ng-container *ngFor="let filter of getFilters()">
+        <div [class]="filter.type">
+            <span>{{ filter.name }}:</span>
+            <ul *ngFor="let value of filter.values">
+                <li>
+                    <app-button 
+                        class="filter-item"
+                        styleType="transparent"
+                        [checked]="filter.selectedValues.includes(value)"
+                        (clicked)="onFilterItemClick(filter, value)">
+                        {{ value }}
+                    </app-button> 
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</div>
 <ul class="todo-container" [hidden]="!isItemCardShowing()">
-    <li *ngFor="let item of getItems()" 
+    <li *ngFor="let item of getFilteredItems()" 
         [tooltip]="item.description || item.text"
         [tooltipDelay]="3000"
         class="todo-item" 
@@ -9,7 +27,8 @@
         (click)="onClickItem(item.id)"
         (dblclick)="onDblClickItem(item.id)"
         (keydown.space)="onClickItem(item.id)"
-        (keydown.control.space)="onDblClickItem(item.id)">
+        (keydown.control.space)="onDblClickItem(item.id)"
+        (keydown.esc)="onCancelEditItem(item.id)">
         <app-todo-list-item 
             [data]="item" 
             [mode]="isItemEditing(item.id) ? 'edit' : 'view'"
@@ -18,31 +37,13 @@
             (canceled)="onCancelEditItem($event)"/>
     </li>
 </ul>
-<div class="todo-item-input" [class.centered]="!isItemCardShowing()">
-    <mat-form-field>
-        <input 
-            matInput
-            type="text" 
-            placeholder="Add your new todo" 
-            [(ngModel)]="newItemText"
-            (keydown.enter)="onAddItem()"/>
-    </mat-form-field>
-    <mat-form-field>
-        <textarea
-            matInput
-            rows="3"
-            placeholder="Description"
-            [(ngModel)]="newItemDescription"
-            (keydown.control.enter)="onAddItem()"></textarea>
-    </mat-form-field>
-    <app-button 
-        tooltip="Add new todo item"
-        type="add" 
-        [title]="'Add'" 
-        [disabled]="!isNewItemDataValid()" 
-        (clicked)="onAddItem()"/>
-</div>
+<app-todo-create-item
+    class="todo-item-input"
+    [class.centered]="!isItemCardShowing()"/>
 <div class="todo-card" [hidden]="!isItemCardShowing()">
-    <p class="todo-description">{{ getSelectedItemDescription() }}</p>
+    <ng-container *ngIf="selectedItemId !== null">
+        <p class="todo-card-text">{{ selectedItem?.text }}</p>
+        <p class="todo-card-description">{{ selectedItem?.description }}</p>
+    </ng-container>
 </div>
-<app-loading-spinner class="loading-spinner" [hidden]="!isLoading"/>
+<app-loading-spinner *ngIf="isLoading"/>

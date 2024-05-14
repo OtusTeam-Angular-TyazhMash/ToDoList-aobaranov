@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { TodoItem } from '../interfaces/todo-item.interface';
+import { TodoItem, TodoStatus } from '../interfaces/todo-item.interface';
+import { TodoFilterService } from './todo-filter.service';
+import { HttpApiService } from './http-api.service';
 
 export type ReadonlyTodoItem = Readonly<TodoItem>;
 export type ReadonlyTodoArray = ReadonlyArray<ReadonlyTodoItem>;
@@ -9,9 +11,16 @@ export type ReadonlyTodoArray = ReadonlyArray<ReadonlyTodoItem>;
 })
 export class TodoManagerService {
 
-  private items: TodoItem[] = [{id: 1, text: 'Todo item 1', description: 'description for todo 1'}, 
-                               {id: 7, text: 'Todo item 2', description: 'description for todo 2'}, 
-                               {id: 6, text: 'Todo item 3', description: 'description for todo 3'}];
+  constructor(
+    private httpApi: HttpApiService,
+    private todoFilters: TodoFilterService) { 
+      todoFilters.filtersChanged.subscribe(() => this.resetFilteredItems());
+      this.loadItems();
+  }
+
+  private items: TodoItem[] = [];
+
+  private filteredItems: TodoItem[] | null = null;
 
   private newItemId(): number {
     let maxId = 0;
@@ -19,12 +28,21 @@ export class TodoManagerService {
     return maxId + 1;
   }
 
-  private getItemByIdForEdit(id: number): TodoItem | undefined {
-    return this.items.find(item => item.id === id);
+  private loadItems(): void {
+    this.httpApi.getTasks().subscribe(
+      data => {
+        this.items = data as TodoItem[];
+        this.resetFilteredItems();
+      },
+    )
+  }
+
+  resetFilteredItems(): void {
+    this.filteredItems = null;
   }
 
   getItemById(id: number): ReadonlyTodoItem | undefined {
-    const item = this.getItemByIdForEdit(id);
+    const item = this.items.find(item => item.id === id);
     if (item) {
       return Object.assign({}, item);
     }
@@ -32,20 +50,32 @@ export class TodoManagerService {
   }
 
   getItems(): ReadonlyTodoArray {
-    // TODO: переделать на возврат копии данных
     return this.items;
   }
 
-  addItem(text: string, description = ''): boolean {
-    if (this.isItemDataValid(text, description)) {
-      this.items.push({
-        id: this.newItemId(),
-        text: text,
-        description: description});
-      return true;
-    } else {
+  getFilteredItems(): ReadonlyTodoArray {
+    if (!this.filteredItems) {
+      this.filteredItems = this.todoFilters.filterItems(this.items);
+    }
+    return this.filteredItems;    
+  }
+
+  addItem(text: string, description: string): boolean {
+    if (!this.isItemDataValid(text, description)) {
       return false;
     }
+
+    this.httpApi.createTask(
+      {
+        id: this.newItemId(),
+        text: text,
+        description: description,
+        status: TodoStatus.InProgress,
+      }).subscribe(
+        () => this.loadItems(),
+      );
+    
+    return true;
   }
 
   assignItem(todo: TodoItem): boolean {
@@ -53,31 +83,35 @@ export class TodoManagerService {
   }
 
   deleteItemById(id: number): boolean {
-    const idx: number = this.items.findIndex(item => item.id === id);
-    if (idx > -1) {
-      this.items.splice(idx, 1);
-      return true;
-    } else {
-      return false;
-    }
+    this.httpApi.deleteTask(id).subscribe(
+      () => this.loadItems(),
+    )
+    return true;
   }
 
-  editItemById(id: number, text: string, description = ''): boolean {
-    const item = this.getItemByIdForEdit(id);
-    if (!(item && this.isItemDataValid(text, description))) {
+  editItemById(id: number, text: string, description: string, status: TodoStatus): boolean {
+    if (!this.isItemDataValid(text, description)) {
       return false;
     }
-
-    item.text = text;
-    item.description = description;
+    
+    this.httpApi.updateTask(
+      {
+        id: id,
+        text: text,
+        description: description,
+        status: status,
+      },
+    ).subscribe(
+      () => this.loadItems(),
+    );
     return true;
   }
 
   editItem(todo: TodoItem): boolean {
-    return this.editItemById(todo.id, todo.text, todo.description);
+    return this.editItemById(todo.id, todo.text, todo.description, todo.status);
   }
 
-  isItemDataValid(text: string, description = ''): boolean {
+  isItemDataValid(text: string, description: string): boolean {
     return text.trim().length > 0;
   }
 

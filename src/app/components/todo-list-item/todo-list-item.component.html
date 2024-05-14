@@ -1,21 +1,33 @@
 <ng-container *ngIf="mode !== 'edit'; else editTemplate">
+    <mat-checkbox
+        class="todo-card-status"
+        [checked]="data.status === 'Completed'"
+        (change)="onChangeStatusClick($event)">
+    </mat-checkbox>
     <span>{{ data.text }}</span>
     <app-button 
-        type="delete" 
+        styleType="delete" 
         [tooltip]="'delete this item'"
-        [title]="'Delete'" 
-        (clicked)="onDeleteClick()"/>
+        (clicked)="onDeleteClick()">
+        Delete
+    </app-button>
 </ng-container>
 
 <ng-template #editTemplate>
+    <mat-checkbox
+        class="todo-card-status"
+        [checked]="data.status === 'Completed'"
+        (change)="onChangeStatusClick($event)">
+    </mat-checkbox>
     <input 
         type="text" 
         [(ngModel)]="editText"
         (keydown.enter)="onSaveClick()"
         (keydown.esc)="onCancelClick()"/> 
     <app-button 
-        type="edit" 
+        styleType="edit" 
         [tooltip]="'save changes'"
-        [title]="'Save'" 
-        (clicked)="onSaveClick()"/>    
+        (clicked)="onSaveClick()">    
+        Save
+    </app-button>
 </ng-template>
