@@ -1,1 +1,8 @@
-<button [class]="type" [disabled]="disabled" (click)="onClick()">{{ title }}</button>
+<button 
+    [class]="styleType"
+    [class.checked]="checked" 
+    [disabled]="disabled" 
+    [type]="type ? type : 'button'"
+    (click)="onClick()">
+    <ng-content/>
+</button>
