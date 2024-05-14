@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastService } from 'src/app/services/toast.service';
 import { TodoManagerService } from 'src/app/services/todo-manager.service';
@@ -18,6 +18,7 @@ export class TodoCreateItemComponent {
   newItemText = '';
   newItemDescription = '';
 
+  @ViewChild('textInput') textInput: ElementRef | null = null;
 
   isNewItemDataValid(): boolean {
     return this.todoManager.isItemDataValid(this.newItemText, this.newItemDescription);
@@ -31,8 +32,8 @@ export class TodoCreateItemComponent {
 
     if (itemAdded) {
       this.toastService.showToast('new item added');
-      this.newItemText = '';
-      this.newItemDescription = '';
+      form.resetForm();
+      this.textInput?.nativeElement.focus();
     }
   }
 

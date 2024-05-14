@@ -3,8 +3,8 @@
     <ng-container *ngFor="let filter of getFilters()">
         <div [class]="filter.type">
             <span>{{ filter.name }}:</span>
-            <ul *ngFor="let value of filter.values">
-                <li>
+            <ul>
+                <li *ngFor="let value of filter.values">
                     <app-button 
                         class="filter-item"
                         styleType="transparent"

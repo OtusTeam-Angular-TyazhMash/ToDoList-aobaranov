@@ -111,8 +111,8 @@ export class TodoManagerService {
     return this.editItemById(todo.id, todo.text, todo.description, todo.status);
   }
 
-  isItemDataValid(text: string, description: string): boolean {
-    return text.trim().length > 0;
+  isItemDataValid(text?: string, description?: string): boolean {
+      return !!text && (text.trim().length > 0);
   }
 
 }
