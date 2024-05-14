@@ -7,9 +7,10 @@
     display: grid;
 
     grid-template-columns: 45% 55%;
-    grid-template-rows: min-content auto min-content;
+    grid-template-rows: min-content min-content auto min-content;
     grid-template-areas: 
         "header header"
+        "filter filter"
         "list card"
         "input input";
 
@@ -40,7 +41,10 @@
     .todo-card {
         margin-top: $standard-gap;
         margin-left: $standard-gap;
+        padding: $standard-gap;
     
+        position: relative;
+
         grid-area: card;
 
         box-sizing: border-box;
@@ -51,7 +55,13 @@
 
         background-color: $card-color;
 
-        .todo-description {
+        .todo-card-text {
+            width: 100%;
+
+            text-align: center;
+        }
+
+        .todo-card-description {
             position: relative;
 
             width: 100%;
@@ -60,6 +70,12 @@
             transform: translateY(-50%);
 
             text-align: center;
+        }
+
+        .todo-card-status {
+            position: absolute;
+            bottom: 0;
+            right: $standard-gap;
         }
     }
 
@@ -93,6 +109,7 @@
         background-color: $list-item-color;
 
         ::ng-deep {
+
             input {
                 width: auto; 
                 border: none;
@@ -118,42 +135,11 @@
     }
 }
 
-.todo-item-input {
-    margin-top: calc(2 * $standard-gap);
-    padding: $standard-gap;
-
+.todo-item-input { 
     align-self: end;
 
     grid-area: input;
 
-    @include card-borders($border-color, 0);
-        
-    @include card-shadow;
-
-    background-color: $card-color;
-
-    overflow: hidden;
-
-    mat-form-field {
-        width: 100%;
-    }
-
-    * {
-        input {
-            width: 100%;
-
-            border-style: none;
-        }
-
-        input:focus {
-            outline: none;
-        }
-
-        textarea {
-            width: 100%;
-        }
-    }
-    
     top: 80%;
 }
 
@@ -172,13 +158,42 @@
     transform: translate(-50%, -50%);
 }
 
+
 ::ng-deep {
     app-button {
         margin-left: $standard-gap;
         
         float: right;
     
-        min-width: 15%;
+        min-width: 13%;
         min-height: 3 * $standard-gap;
+    }
+}
+
+.filters-container {
+    margin-top: $standard-gap;
+    padding: $standard-gap;
+
+    grid-area: filter;
+
+    @include card-borders;
+
+    background-color: rgba(0, 0, 120, 0.2);
+
+    .buttons-list {
+        app-button.filter-item {
+           margin-left: $standard-gap; 
+           display: inline-block;
+           float: none;
+        }
+
+        ul {
+            list-style-type: none;
+            display: inline-block;
+        }
+
+        li {
+            display: inline-block;
+        }
     }
 }

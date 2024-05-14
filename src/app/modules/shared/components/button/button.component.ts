@@ -6,11 +6,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {
-  @Input() title: string | undefined;
-
   @Input() disabled: boolean | undefined;
 
-  @Input() type: 'add' | 'delete' | 'edit' | undefined;
+  @Input() styleType: 'add' | 'delete' | 'edit' | 'transparent' | 'common' | undefined;
+
+  @Input() checked: boolean | undefined;
+
+  @Input() type: 'button' | 'submit' | 'reset' | undefined;
 
   @Output() clicked = new EventEmitter();
 

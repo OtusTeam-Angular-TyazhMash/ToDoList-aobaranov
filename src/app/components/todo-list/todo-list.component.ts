@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoItem } from '../../interfaces/todo-item.interface';
+import { Filter } from 'src/app/interfaces/filter.interface';
 import { 
   TodoManagerService,
   ReadonlyTodoArray,     
 } from 'src/app/services/todo-manager.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { TodoFilterService } from 'src/app/services/todo-filter.service';
 
 @Component({
   selector: 'app-todo-list',
@@ -15,16 +17,21 @@ export class TodoListComponent implements OnInit {
   
   constructor(
     private todoManager: TodoManagerService,
+    private todoFilters: TodoFilterService,
     private toastService: ToastService) { }
-
-  newItemText = '';
-  newItemDescription = '';
 
   isLoading = true;
 
   private editingItemId: number | null = null;
 
   private _selectedItemId: number | null = null;
+
+  get selectedItem(): TodoItem | undefined {
+    if (this.selectedItemId) {
+      return this.todoManager.getItemById(this.selectedItemId);
+    }
+    return;
+  }
 
   get selectedItemId(): number | null {
     return this._selectedItemId;
@@ -37,8 +44,16 @@ export class TodoListComponent implements OnInit {
     }
   }
 
+  getFilters(): Filter[] {
+    return this.todoFilters.getFilters();
+  }
+
   getItems(): ReadonlyTodoArray {
     return this.todoManager.getItems();
+  }
+
+  getFilteredItems(): ReadonlyTodoArray {
+    return this.todoManager.getFilteredItems();
   }
 
   ngOnInit(): void {
@@ -47,10 +62,6 @@ export class TodoListComponent implements OnInit {
 
   isItemSelected(id: number): boolean {
     return this.selectedItemId === id;
-  }
-
-  isNewItemDataValid(): boolean {
-    return this.todoManager.isItemDataValid(this.newItemText, this.newItemDescription);
   }
 
   isItemCardShowing(): boolean {
@@ -79,33 +90,6 @@ export class TodoListComponent implements OnInit {
     }   
   }
 
-  onDeleteItemE(event: Event): void {
-    if (typeof event === "number") {
-      this.onDeleteItem((event as number));
-    }   
-  }
-
-  getSelectedItemDescription(): string {
-    if (this.selectedItemId !== null) {
-      return this.todoManager.getItemById(this.selectedItemId)?.description || '';
-    } else {
-      return '';
-    }
-  }
-
-  onAddItem(): void {
-    const itemAdded = 
-      this.todoManager.addItem(
-        this.newItemText,
-        this.newItemDescription);
-
-    if (itemAdded) {
-      this.toastService.showToast('new item added');
-      this.newItemText = '';
-      this.newItemDescription = '';
-    }
-  }
-
   onEditItem(item: TodoItem): void {
     const itemEdited = this.todoManager.editItem(item);
     if (itemEdited) {
@@ -114,7 +98,12 @@ export class TodoListComponent implements OnInit {
     }
   }
 
-  onCancelEditItem(id: number) {
+  onCancelEditItem(id: number): void {
     this.editingItemId = null;
+  }
+
+  onFilterItemClick(filter: Filter, value: string): void {
+    this.todoFilters.toggleFilter(filter, value);
+    this.todoManager.resetFilteredItems();
   }
 }
