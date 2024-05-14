@@ -104,6 +104,5 @@ export class TodoListComponent implements OnInit {
 
   onFilterItemClick(filter: Filter, value: string): void {
     this.todoFilters.toggleFilter(filter, value);
-    this.todoManager.resetFilteredItems();
   }
 }
