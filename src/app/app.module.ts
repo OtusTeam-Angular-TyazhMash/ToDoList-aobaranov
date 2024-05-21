@@ -9,12 +9,21 @@ import { SharedModule } from './modules/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ToastsComponent } from './components/toasts/toasts.component';
+import { TodoCreateItemComponent } from './components/todo-create-item/todo-create-item.component';
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import { TodoCardViewComponent } from './components/todo-card-view/todo-card-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
     TodoListItemComponent,
+    ToastsComponent,
+    TodoCreateItemComponent,
+    TodoCardViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,6 +32,9 @@ import { MatCardModule } from '@angular/material/card';
     BrowserAnimationsModule,
     MatInputModule,
     MatCardModule,
+    MatCheckboxModule,
+    HttpClientModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

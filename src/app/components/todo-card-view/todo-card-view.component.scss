@@ -1,0 +1,40 @@
+@import '../../styles/theme.scss';
+:host {
+    padding: $standard-gap;
+    
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+
+    @include card-borders($border-color, 0);
+    
+    @include card-shadow;
+
+    background-color: $card-color;
+
+}
+
+.todo-text {
+    width: 100%;
+
+    text-align: center;
+}
+
+.todo-description {
+    position: relative;
+
+    width: 100%;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    text-align: center;
+}
+
+.todo-status {
+    position: absolute;
+    bottom: 0;
+    right: $standard-gap;
+}

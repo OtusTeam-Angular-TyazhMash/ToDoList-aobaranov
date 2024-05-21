@@ -1,5 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoItem } from '../../interfaces/todo-item.interface';
+import { Filter } from '../../interfaces/filter.interface';
+import {
+  TodoManagerService,
+  ReadonlyTodoArray,
+} from 'src/app/services/todo-manager.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { TodoFilterService } from 'src/app/services/todo-filter.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, map, of } from 'rxjs';
+
 
 @Component({
   selector: 'app-todo-list',
@@ -7,75 +17,79 @@ import { TodoItem } from '../../interfaces/todo-item.interface';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  items: TodoItem[] = [{id: 1, text: 'Todo item 1', description: 'description for todo 1'}, 
-                       {id: 7, text: 'Todo item 2', description: 'description for todo 2'}, 
-                       {id: 6, text: 'Todo item 3', description: 'description for todo 3'}];
 
-  newItemText = '';
-  newItemDescription = '';
-
-  private selectedItemId: number | null = null;
+  constructor(
+    private todoManager: TodoManagerService,
+    private todoFilters: TodoFilterService,
+    private toastService: ToastService,
+    public readonly router: Router,
+    public readonly activatedRoute: ActivatedRoute) {
+  }
 
   isLoading = true;
+
+  private editingItemId: number | null = null;
+
+  get selectedItemId(): Observable<number | null> {
+    if (this.activatedRoute.children[0]) {
+        return this.activatedRoute.children[0].paramMap
+            .pipe(map(map => map.get('id')),
+                  map(value => value ? +value : null));
+    }
+    return of(null);
+  }
+
+  getFilters(): Filter[] {
+    return this.todoFilters.getFilters();
+  }
+
+  getItems(): ReadonlyTodoArray {
+    return this.todoManager.getItems();
+  }
+
+  getFilteredItems(): ReadonlyTodoArray {
+    return this.todoManager.getFilteredItems();
+  }
 
   ngOnInit(): void {
     setTimeout(() => this.isLoading = false, 500);
   }
 
-  isItemSelected(id: number): boolean {
-    return this.selectedItemId === id;
-  }
-
-  private getItemById(id: number): TodoItem | undefined {
-    return this.items.find(item => item.id === id);
-  }
-
-  isNewItemDataValid(): boolean {
-    return this.newItemText.trim().length > 0;
+  isItemSelected(id: number): Observable<boolean> {
+    return this.selectedItemId.pipe(map(value => value === id));
   }
 
   isItemCardShowing(): boolean {
-    return this.items.length > 0 && !this.isLoading;
+    return this.getItems().length > 0 && !this.isLoading;
   }
 
-  private newItemId(): number {
-    let maxId = 0;
-    this.items.forEach(item => maxId = Math.max(maxId, item.id));
-    return maxId + 1;
+  onDblClickItem(id: number): void {
+    this.editingItemId = id;
   }
 
-  onClickItem(id: number) {
-    this.selectedItemId = id;
+  isItemEditing(id: number): boolean {
+    return this.editingItemId === id;
   }
 
   onDeleteItem(id: number): void {
-    const idx: number = this.items.findIndex(item => item.id === id);
-    if (idx > -1) {
-      this.items.splice(idx, 1);
-
-      if (this.isItemSelected(id)) {
-        this.selectedItemId = null;
-      }
+    if (this.todoManager.deleteItemById(id)) {
+      this.toastService.showToast('item deleted');
     }
   }
 
-  getSelectedItemDescription(): string {
-    if (this.selectedItemId !== null) {
-      return this.getItemById(this.selectedItemId)?.description || '';
-    } else {
-      return '';
+  onEditItem(item: TodoItem): void {
+    const itemEdited = this.todoManager.editItem(item);
+    if (itemEdited) {
+      this.toastService.showToast('item edited');
+      this.editingItemId = null;
     }
   }
 
-  onAddItem(): void {
-    if (this.isNewItemDataValid()) {
-      this.items.push({
-        id: this.newItemId(), 
-        text: this.newItemText, 
-        description: this.newItemDescription});
+  onCancelEditItem(id: number): void {
+    this.editingItemId = null;
+  }
 
-      this.newItemText = '';
-      this.newItemDescription = '';
-    }
+  onFilterItemClick(filter: Filter, value: string): void {
+    this.todoFilters.toggleFilter(filter, value);
   }
 }
