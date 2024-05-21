@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TodoItem, TodoStatus } from '../interfaces/todo-item.interface';
 import { TodoFilterService } from './todo-filter.service';
 import { HttpApiService } from './http-api.service';
+import { Subject, map } from 'rxjs';
 
 export type ReadonlyTodoItem = Readonly<TodoItem>;
 export type ReadonlyTodoArray = ReadonlyArray<ReadonlyTodoItem>;
@@ -10,6 +11,18 @@ export type ReadonlyTodoArray = ReadonlyArray<ReadonlyTodoItem>;
   providedIn: 'root',
 })
 export class TodoManagerService {
+
+  private _loading = false;
+
+  get loading(): boolean {
+    return this._loading;
+  }
+
+  public readonly dataLoaded = new Subject<number>();
+
+  private notifyDataLoaded(): void {
+    this.dataLoaded.next(this.items.length);
+  }
 
   constructor(
     private httpApi: HttpApiService,
@@ -29,10 +42,18 @@ export class TodoManagerService {
   }
 
   private loadItems(): void {
-    this.httpApi.getTasks().subscribe(
-      data => {
-        this.items = data as TodoItem[];
+    this._loading = true;
+    this.httpApi.getTasks().pipe(map(
+      data => (data as Array<TodoItem>).map(item => {
+          item.id = +item.id;
+          return item;
+        }),
+    )).subscribe(
+      items => {
+        this.items = items;
         this.resetFilteredItems();
+        this._loading = false;
+        this.notifyDataLoaded();
       },
     )
   }

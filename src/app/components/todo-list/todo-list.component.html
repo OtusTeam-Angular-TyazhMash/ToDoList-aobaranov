@@ -23,27 +23,26 @@
         [tooltipDelay]="3000"
         class="todo-item" 
         tabindex="0"
-        [class.selected]="isItemSelected(item.id)"
-        (click)="onClickItem(item.id)"
+        [class.selected]="item.id === (selectedItemId | async)"
         (dblclick)="onDblClickItem(item.id)"
-        (keydown.space)="onClickItem(item.id)"
         (keydown.control.space)="onDblClickItem(item.id)"
-        (keydown.esc)="onCancelEditItem(item.id)">
+        (keydown.esc)="onCancelEditItem(item.id)"
+        [routerLink]="[item.id]">
         <app-todo-list-item 
             [data]="item" 
             [mode]="isItemEditing(item.id) ? 'edit' : 'view'"
             (edited)="onEditItem($event)"
             (deleted)="onDeleteItem($event)"
-            (canceled)="onCancelEditItem($event)"/>
+            (canceled)="onCancelEditItem($event)">
+        </app-todo-list-item>
     </li>
 </ul>
 <app-todo-create-item
     class="todo-item-input"
     [class.centered]="!isItemCardShowing()"/>
-<div class="todo-card" [hidden]="!isItemCardShowing()">
-    <ng-container *ngIf="selectedItemId !== null">
-        <p class="todo-card-text">{{ selectedItem?.text }}</p>
-        <p class="todo-card-description">{{ selectedItem?.description }}</p>
-    </ng-container>
+<div 
+    class="todo-card-container"
+    [hidden]="!isItemCardShowing()">
+    <router-outlet></router-outlet> 
 </div>
 <app-loading-spinner *ngIf="isLoading"/>

@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoItem } from '../../interfaces/todo-item.interface';
-import { Filter } from 'src/app/interfaces/filter.interface';
-import { 
+import { Filter } from '../../interfaces/filter.interface';
+import {
   TodoManagerService,
-  ReadonlyTodoArray,     
+  ReadonlyTodoArray,
 } from 'src/app/services/todo-manager.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { TodoFilterService } from 'src/app/services/todo-filter.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, map, of } from 'rxjs';
+
 
 @Component({
   selector: 'app-todo-list',
@@ -14,34 +17,26 @@ import { TodoFilterService } from 'src/app/services/todo-filter.service';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  
+
   constructor(
     private todoManager: TodoManagerService,
     private todoFilters: TodoFilterService,
-    private toastService: ToastService) { }
+    private toastService: ToastService,
+    public readonly router: Router,
+    public readonly activatedRoute: ActivatedRoute) {
+  }
 
   isLoading = true;
 
   private editingItemId: number | null = null;
 
-  private _selectedItemId: number | null = null;
-
-  get selectedItem(): TodoItem | undefined {
-    if (this.selectedItemId) {
-      return this.todoManager.getItemById(this.selectedItemId);
+  get selectedItemId(): Observable<number | null> {
+    if (this.activatedRoute.children[0]) {
+        return this.activatedRoute.children[0].paramMap
+            .pipe(map(map => map.get('id')),
+                  map(value => value ? +value : null));
     }
-    return;
-  }
-
-  get selectedItemId(): number | null {
-    return this._selectedItemId;
-  }
-
-  set selectedItemId(value: number | null) {
-    if (this.selectedItemId !== value) {
-      this._selectedItemId = value;
-      this.editingItemId = null;
-    }
+    return of(null);
   }
 
   getFilters(): Filter[] {
@@ -60,20 +55,15 @@ export class TodoListComponent implements OnInit {
     setTimeout(() => this.isLoading = false, 500);
   }
 
-  isItemSelected(id: number): boolean {
-    return this.selectedItemId === id;
+  isItemSelected(id: number): Observable<boolean> {
+    return this.selectedItemId.pipe(map(value => value === id));
   }
 
   isItemCardShowing(): boolean {
     return this.getItems().length > 0 && !this.isLoading;
   }
 
-  onClickItem(id: number): void {
-    this.selectedItemId = id;
-  }
-
   onDblClickItem(id: number): void {
-    this.selectedItemId = id;
     this.editingItemId = id;
   }
 
@@ -84,10 +74,7 @@ export class TodoListComponent implements OnInit {
   onDeleteItem(id: number): void {
     if (this.todoManager.deleteItemById(id)) {
       this.toastService.showToast('item deleted');
-      if (this.isItemSelected(id)) {
-        this.selectedItemId = null;
-      }
-    }   
+    }
   }
 
   onEditItem(item: TodoItem): void {

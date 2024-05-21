@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment.development';
 export class HttpApiService {
 
   private api = {
-    tasksUrl: `${environment.apiUrl}/tasks`
+    tasksUrl: `${environment.apiUrl}/tasks`,
   }
 
   constructor(
