@@ -15,7 +15,6 @@ const routes: Routes = [
     children: [
       {
         path: ':id',
-        // outlet: 'card-view',
         component: TodoCardViewComponent,
       },
     ],
