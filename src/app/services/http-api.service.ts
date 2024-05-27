@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TodoItem } from '../interfaces/todo-item.interface';
+import { Task } from '../interfaces/task.interface';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -15,11 +15,11 @@ export class HttpApiService {
   constructor(
     private httpClient: HttpClient) { }
 
-  createTask(task: TodoItem) {
+  createTask(task: Task) {
     return this.httpClient.post(this.api.tasksUrl, {...task, id: `${task.id}`});
   }
 
-  updateTask(task: TodoItem) {
+  updateTask(task: Task) {
     return this.httpClient.put(this.api.tasksUrl + '/' + task.id, task);
   }
 

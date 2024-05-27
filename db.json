@@ -2,21 +2,33 @@
   "tasks": [
     {
       "id": "1",
-      "text": "Todo item 1",
-      "description": "Description for todo 1",
-      "status": "InProgress"
+      "text": "Task 1",
+      "description": "Description for task 1",
+      "status": "Todo"
     },
     {
       "id": "2",
-      "text": "Todo item 2",
-      "description": "Description for todo 2",
+      "text": "Task 2",
+      "description": "Description for task 2",
       "status": "InProgress"
     },
     {
       "id": "3",
-      "text": "Todo item 3",
-      "description": "Description for todo 3",
+      "text": "Task 3",
+      "description": "Description for task 3",
       "status": "InProgress"
+    },
+    {
+      "id": "4",
+      "text": "Task 4",
+      "description": "Description for task 4",
+      "status": "Todo"
+    },
+    {
+      "id": "5",
+      "text": "Task 5",
+      "description": "Description for task 5",
+      "status": "Completed"
     }
   ]
 }

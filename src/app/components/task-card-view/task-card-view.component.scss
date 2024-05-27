@@ -1,0 +1,88 @@
+@import '../../styles/theme.scss';
+:host {
+    padding: $standard-gap;
+    
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    @include card-borders($border-color, 0);
+    
+    @include card-shadow;
+
+    background-color: $card-color;
+
+}
+
+.task-text {
+    width: 100%;
+
+    text-align: center;
+}
+
+.task-description {
+    position: relative;
+
+    width: 100%;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    text-align: center;
+}
+
+.task-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.task-text, .task-description {
+    word-wrap: break-word;
+}
+
+.task-statuses-container {
+    padding: $standard-gap 0;
+
+    display: inline-block;
+    position: absolute;
+
+    width: 100%;
+    bottom: 0;
+    left: 0;
+
+    box-sizing: border-box;
+
+    list-style-type: none;
+
+    li {
+        margin-left: $standard-gap;
+
+        display: inline-block;
+
+        app-button {
+            margin-left: 0;
+        }
+    }
+
+}
+
+.task-statuses-container:has(> .Todo.checked) {
+    background-color: $task-status-todo-color;
+}
+
+.task-statuses-container:has(> .InProgress.checked) {
+    background-color: $task-status-inprogress-color;
+}
+
+.task-statuses-container:has(> .Completed.checked) {
+    background-color: $task-status-completed-color;
+}
+
+app-button {
+    @include standard-button;
+    float: none;
+}

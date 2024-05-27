@@ -12,6 +12,10 @@ $list-item-color-hover: #eff0ed;
 $list-item-color-selected: #dbdcd9;
 $list-item-outline-color-selected: #8067AE;
 
+$task-status-todo-color: none;
+$task-status-inprogress-color: #579dff;
+$task-status-completed-color: #4bce97;
+
 $todo-input-form-max-height: 39vh;
 
 @mixin card-borders($color: $border-color, $width: 1px) {
@@ -36,6 +40,15 @@ $todo-input-form-max-height: 39vh;
     border-style: none;
     border-radius: $button-border-radius;
     outline: none;
+}
+
+@mixin standard-button {
+    margin-left: $standard-gap;
+    
+    float: right;
+
+    min-width: 13%;
+    min-height: 3 * $standard-gap;
 }
 
 @mixin list-item-selected-outline {

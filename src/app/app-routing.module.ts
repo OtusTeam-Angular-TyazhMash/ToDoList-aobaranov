@@ -1,21 +1,34 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TodoListComponent } from './components/todo-list/todo-list.component';
-import { TodoCardViewComponent } from './components/todo-card-view/todo-card-view.component';
+import { BacklogViewComponent } from './components/backlog-view/backlog-view.component';
+import { TaskCardViewComponent } from './components/task-card-view/task-card-view.component';
+import { BoardViewComponent } from './components/board-view/board-view.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tasks',
+    redirectTo: 'backlog',
     pathMatch: 'full',
   },
   {
-    path: 'tasks',
-    component: TodoListComponent,
+    title: 'Backlog',
+    path: 'backlog',
+    component: BacklogViewComponent,
     children: [
       {
-        path: ':id',
-        component: TodoCardViewComponent,
+        path: 'task/:id',
+        component: TaskCardViewComponent,
+      },
+    ],
+  },
+  {
+    title: 'Board',
+    path: 'board',
+    component: BoardViewComponent,
+    children: [
+      {
+        path: 'task/:id',
+        component: BoardViewComponent,
       },
     ],
   },
