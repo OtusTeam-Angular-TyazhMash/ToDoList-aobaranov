@@ -1,0 +1,26 @@
+<ng-container *ngIf="mode !== 'edit'; else editTemplate">
+    <span>{{ data.text }}</span>
+    <span class="task-status" [ngClass]="data.status"></span>
+    <app-button 
+        *ngIf="deletable"
+        styleType="delete" 
+        [tooltip]="'delete this item'"
+        (clicked)="onDeleteClick()">
+        Delete
+    </app-button>
+</ng-container>
+
+<ng-template #editTemplate>
+    <input 
+        type="text" 
+        [(ngModel)]="editText"
+        (keydown.enter)="onSaveClick()"
+        (keydown.esc)="onCancelClick()"/> 
+    <span class="task-status" [ngClass]="data.status"></span>
+    <app-button 
+        styleType="edit" 
+        [tooltip]="'save changes'"
+        (clicked)="onSaveClick()">    
+        Save
+    </app-button>
+</ng-template>

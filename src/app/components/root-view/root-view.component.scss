@@ -1,0 +1,54 @@
+@import '../../styles/theme.scss';
+
+:host {
+    padding: $standard-gap;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+    display: grid;
+
+    grid-template-rows: min-content auto;
+    grid-template-areas: 
+        "header"
+        "content";
+
+    @include card-borders($width: 0);
+
+    @include form-content-background;  
+
+    @include card-shadow;
+}
+
+.app-header {
+    margin-top: -$standard-gap;
+    margin-left: -$standard-gap;
+    margin-right: -$standard-gap;
+    padding: $standard-gap;
+
+    position: relative;
+    grid-area: header;
+
+    @include card-borders($border-color, 0);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    background-color: $card-color;
+    @include card-shadow;
+
+    app-navigation {
+        position: absolute;
+
+        bottom: 0;
+        right: 5%;
+    }
+}
+
+.app-content {
+    position: relative;
+
+    grid-area: content;
+}
+

@@ -1,0 +1,8 @@
+<ul class="navigation-list">
+    <li *ngFor="let route of getRoutes()"
+        class="navigation-item"
+        [routerLink]="[route.path]"
+        [routerLinkActive]="'selected'">
+        {{ route.title }}
+    </li>
+</ul>

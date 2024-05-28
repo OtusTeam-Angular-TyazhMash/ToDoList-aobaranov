@@ -1,0 +1,38 @@
+@import '../../styles/theme.scss';
+
+:host {
+    margin-top: calc(2 * $standard-gap);
+    padding: $standard-gap;
+
+    @include card-borders($border-color, 0);
+        
+    @include card-shadow;
+
+    background-color: $card-color;
+
+    overflow: hidden;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    * {
+        input {
+            width: 100%;
+
+            border-style: none;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        textarea {
+            width: 100%;
+        }
+    }
+
+    app-button {
+        @include standard-button;
+    }
+}

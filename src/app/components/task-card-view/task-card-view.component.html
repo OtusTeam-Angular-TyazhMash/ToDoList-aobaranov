@@ -1,0 +1,14 @@
+<h3 class="task-text">{{ data?.text }}</h3>
+<p class="task-description">{{ data?.description }}</p>
+<ul class="task-statuses-container">
+    <li *ngFor="let status of getStatuses()"
+        [ngClass]="status"
+        [class.checked]="data?.status === status">
+        <app-button
+            [styleType]="'transparent'"
+            [checked]="data?.status === status"
+            (clicked)="onStatusClick(status)">
+            {{ status }}
+        </app-button>
+    </li>
+</ul>

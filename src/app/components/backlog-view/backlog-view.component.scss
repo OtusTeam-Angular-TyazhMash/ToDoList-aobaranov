@@ -1,0 +1,114 @@
+@import '../../styles/theme.scss';
+
+:host {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+    display: grid;
+
+    grid-template-columns: 45% 55%;
+    grid-template-rows: min-content auto min-content;
+    grid-template-areas: 
+        "filter filter"
+        "list card"
+        "input card";
+}
+
+.tasks-list-header {
+    margin-top: -$standard-gap;
+    margin-left: -$standard-gap;
+    margin-right: -$standard-gap;
+    padding: $standard-gap;
+
+    grid-area: header;
+
+    @include card-borders($border-color, 0);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    
+    background-color: $card-color;
+    @include card-shadow;
+}
+
+.task-card-container {
+    margin-top: $standard-gap;
+    margin-left: $standard-gap;
+
+    position: relative;
+
+    grid-area: card;
+}
+
+.tasks-container {
+    margin-left: -$standard-gap;
+    margin-right: -$standard-gap;
+    padding-top: $standard-gap;
+    padding-left: $standard-gap;
+    padding-right: $standard-gap;
+    
+    display: block;
+
+    grid-area: list;
+
+    overflow: auto;
+    scrollbar-width: thin;
+}
+
+.task-item-input { 
+    align-self: end;
+
+    grid-area: input;
+
+    top: 80%;
+    left: 30%;
+}
+
+.task-item-input.centered {
+    width: 512px;
+
+    grid-area: list / 1 / input / span 2;
+
+    transition-property: top, left, width;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+app-button {
+    @include standard-button;
+}
+
+.filters-container {
+    margin-top: $standard-gap;
+    padding: $standard-gap;
+
+    grid-area: filter;
+
+    @include card-borders($width: 0);
+
+    background-color: rgba(0, 0, 120, 0.2);
+
+    .buttons-list {
+        app-button.filter-item {
+           margin-left: $standard-gap; 
+           display: inline-block;
+           float: none;
+        }
+
+        ul {
+            list-style-type: none;
+            display: inline-block;
+        }
+
+        li {
+            display: inline-block;
+        }
+    }
+}

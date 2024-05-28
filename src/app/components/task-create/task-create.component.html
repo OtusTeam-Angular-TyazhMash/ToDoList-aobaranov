@@ -1,0 +1,28 @@
+<form #createForm="ngForm" (ngSubmit)="onSubmit(createForm)">
+    <mat-form-field>
+        <input 
+            matInput
+            #textInput
+            type="text" 
+            name="text"
+            placeholder="Add new task" 
+            [(ngModel)]="newItemText"
+            (keydown.enter)="onSubmit(createForm)"/>
+    </mat-form-field>
+    <mat-form-field>
+        <textarea
+            matInput
+            name="description"
+            rows="3"
+            placeholder="Description"
+            [(ngModel)]="newItemDescription"
+            (keydown.control.enter)="onSubmit(createForm)"></textarea>
+    </mat-form-field>
+    <app-button 
+        tooltip="Add new task"
+        styleType="add"  
+        type="submit"
+        [disabled]="!isNewItemDataValid()">
+        Add
+    </app-button>
+</form>

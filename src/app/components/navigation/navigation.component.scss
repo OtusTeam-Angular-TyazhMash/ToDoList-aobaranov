@@ -1,0 +1,20 @@
+@import '../../styles/theme.scss';
+
+.navigation-list {
+    list-style-type: none;
+}
+
+.navigation-item {
+    padding: $standard-gap;
+
+    height: 100%;
+
+    display: inline-block;
+
+    cursor: pointer;
+}
+
+.navigation-item.selected {
+    border-bottom: solid 3px $list-item-outline-color-selected;
+    background-color: rgba(0, 0, 0, 0.1);
+}
