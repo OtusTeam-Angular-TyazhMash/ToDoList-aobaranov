@@ -33,7 +33,7 @@ export class TaskCardViewComponent implements OnDestroy, OnInit {
         this.loadDataById(+this.params['id']);
       },
     );
-    this.dataSubscription = this.tasksManager.dataLoaded.subscribe(
+    this.dataSubscription = this.tasksManager.dataLoaded$.subscribe(
       () => {
         if (this.params) {
           this.loadDataById(+this.params['id']);
@@ -48,11 +48,9 @@ export class TaskCardViewComponent implements OnDestroy, OnInit {
   }
 
   private loadDataById(id: number): void {
-    if (!this.tasksManager.loading) {
-      this.data = this.tasksManager.getItemById(id);
-      if (!this.data) {
-        this.dataNotFound();
-      }
+    this.data = this.tasksManager.getItemById(id);
+    if (!this.data) {
+      this.dataNotFound();
     }
   }
 

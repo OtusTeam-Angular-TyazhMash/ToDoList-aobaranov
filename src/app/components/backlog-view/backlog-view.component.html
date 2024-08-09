@@ -1,5 +1,5 @@
 <div class="filters-container" [hidden]="!isItemCardShowing()">
-    <ng-container *ngFor="let filter of getFilters()">
+    <ng-container *ngFor="let filter of filters$ | async">
         <div [class]="filter.type">
             <span>{{ filter.name }}:</span>
             <ul>
@@ -18,7 +18,7 @@
 </div>
 <app-tasks-list
     class="tasks-container" 
-    [items]="getFilteredItems()"
+    [items]="filteredItems$ | async"
     taskRoute="task"
     [hidden]="!isItemCardShowing()"/>
 <app-task-create-item

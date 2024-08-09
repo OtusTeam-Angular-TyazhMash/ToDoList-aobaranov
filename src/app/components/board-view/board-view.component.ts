@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { TaskStatus } from 'src/app/interfaces/task.interface';
-import { ReadonlyTasksArray, TasksManagerService } from 'src/app/services/tasks-manager.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Task, TaskStatus } from 'src/app/interfaces/task.interface';
+import { TasksManagerService } from 'src/app/services/tasks-manager.service';
 
 interface BoardColumn {
   title: string;
@@ -12,7 +13,11 @@ interface BoardColumn {
   templateUrl: './board-view.component.html',
   styleUrls: ['./board-view.component.scss'],
 })
-export class BoardViewComponent {
+export class BoardViewComponent implements OnInit, OnDestroy {
+
+  private items: Task[] = [];
+
+  private itemsSubsciption!: Subscription;
 
   constructor(
     private tasksManager: TasksManagerService) { }
@@ -24,7 +29,17 @@ export class BoardViewComponent {
     return this.columns;
   }
 
-  getColumnItems(column: BoardColumn): ReadonlyTasksArray {
-    return this.tasksManager.getItems().filter(item => item.status === column.associatedStatus);
+  ngOnInit(): void {
+    this.itemsSubsciption = this.tasksManager.items$.subscribe(
+      items => this.items = items,
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.itemsSubsciption.unsubscribe();
+  }
+
+  getColumnItems(column: BoardColumn): Task[] {
+    return this.items.filter(item => item.status === column.associatedStatus);
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Task, TaskStatus } from '../interfaces/task.interface';
-import { TasksFilterService } from './tasks-filter.service';
 import { HttpApiService } from './http-api.service';
-import { Subject, map } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
+import { ToastService } from './toast.service';
 
 export type ReadonlyTaskItem = Readonly<Task>;
 export type ReadonlyTasksArray = ReadonlyArray<ReadonlyTaskItem>;
@@ -12,73 +12,63 @@ export type ReadonlyTasksArray = ReadonlyArray<ReadonlyTaskItem>;
 })
 export class TasksManagerService {
 
-  private _loading = false;
+  private _items: Task[] = [];
 
-  get loading(): boolean {
-    return this._loading;
-  }
-
-  public readonly dataLoaded = new Subject<number>();
-
-  private notifyDataLoaded(): void {
-    this.dataLoaded.next(this.items.length);
-  }
+  public readonly dataLoaded$ = new BehaviorSubject<boolean>(false);
+  public readonly dataLoading$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private httpApi: HttpApiService,
-    private tasksFilters: TasksFilterService) { 
-      tasksFilters.filtersChanged.subscribe(() => this.resetFilteredItems());
+    private toastService: ToastService) { 
+      this.items$.subscribe(
+          items => this._items = items,
+      );
       this.loadItems();
   }
 
-  private items: Task[] = [];
 
-  private filteredItems: Task[] | null = null;
+  private _items$ = new BehaviorSubject<Task[]>([]);
+
+  get items$() {
+    return this._items$.asObservable();
+  }
 
   private newItemId(): number {
     let maxId = 0;
-    this.items.forEach(item => maxId = Math.max(maxId, item.id));
+    this._items.forEach(item => maxId = Math.max(maxId, item.id));
     return maxId + 1;
   }
 
   private loadItems(): void {
-    this._loading = true;
+    this.dataLoading$.next(true);
     this.httpApi.getTasks().pipe(map(
       data => (data as Array<Task>).map(item => {
           item.id = +item.id;
           return item;
         }),
-    )).subscribe(
-      items => {
-        this.items = items;
-        this.resetFilteredItems();
-        this._loading = false;
-        this.notifyDataLoaded();
+    )).subscribe({
+      next: items => {
+        this.dataLoading$.next(false);
+        this._items = items;
+        this._items$.next(items);
+        this.dataLoaded$.next(true);
       },
-    )
+      error: () => {
+        this.toastService.showToast('Items loading failed');
+        this.dataLoading$.next(false);
+        this._items = [];
+        this._items$.next([]);
+        this.dataLoaded$.next(false);
+      },
+    })
   }
 
-  resetFilteredItems(): void {
-    this.filteredItems = null;
-  }
-
-  getItemById(id: number): ReadonlyTaskItem | undefined {
-    const item = this.items.find(item => item.id === id);
+  getItemById(id: number): Task | undefined {
+    const item = this._items.find(item => item.id === id);
     if (item) {
       return Object.assign({}, item);
     }
     return;
-  }
-
-  getItems(): ReadonlyTasksArray {
-    return this.items;
-  }
-
-  getFilteredItems(): ReadonlyTasksArray {
-    if (!this.filteredItems) {
-      this.filteredItems = this.tasksFilters.filterItems(this.items);
-    }
-    return this.filteredItems;    
   }
 
   addItem(text: string, description: string): boolean {
@@ -92,9 +82,10 @@ export class TasksManagerService {
         text: text,
         description: description,
         status: TaskStatus.Todo,
-      }).subscribe(
-        () => this.loadItems(),
-      );
+      }).subscribe({
+        next: () => this.loadItems(),
+        error: () => this.toastService.showToast('Item creation failed'),
+      });
     
     return true;
   }
@@ -104,9 +95,10 @@ export class TasksManagerService {
   }
 
   deleteItemById(id: number): boolean {
-    this.httpApi.deleteTask(id).subscribe(
-      () => this.loadItems(),
-    )
+    this.httpApi.deleteTask(id).subscribe({
+      next: () => this.loadItems(),
+      error: () => this.toastService.showToast('Item deletion failed'),
+    })
     return true;
   }
 
@@ -122,9 +114,10 @@ export class TasksManagerService {
         description: description,
         status: status,
       },
-    ).subscribe(
-      () => this.loadItems(),
-    );
+    ).subscribe({
+      next: () => this.loadItems(),
+      error: () => this.toastService.showToast('Item editing failed'),
+    });
     return true;
   }
 

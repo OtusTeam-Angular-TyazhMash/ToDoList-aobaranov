@@ -10,6 +10,7 @@
     box-sizing: border-box;
     display: grid;
 
+    overflow: hidden;
     grid-template-rows: min-content auto;
     grid-template-areas: 
         "header"

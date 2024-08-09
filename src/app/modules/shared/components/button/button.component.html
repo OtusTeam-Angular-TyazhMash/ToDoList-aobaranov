@@ -3,6 +3,6 @@
     [class.checked]="checked" 
     [disabled]="disabled" 
     [type]="type ? type : 'button'"
-    (click)="onClick()">
+    (click)="onClick($event)">
     <ng-content/>
 </button>

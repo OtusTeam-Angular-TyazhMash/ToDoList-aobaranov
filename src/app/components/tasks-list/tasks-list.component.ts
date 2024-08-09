@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from 'src/app/interfaces/task.interface';
-import { ReadonlyTasksArray, TasksManagerService } from 'src/app/services/tasks-manager.service';
+import { TasksManagerService } from 'src/app/services/tasks-manager.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class TasksListComponent {
     public readonly activatedRoute: ActivatedRoute) {
   }
   
-  @Input() items: ReadonlyTasksArray = [];
+  @Input() items: Task[] | null = [];
   @Input() allowDelete = true;
   @Input() allowEdit = true;
 

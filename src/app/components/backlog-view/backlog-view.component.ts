@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Filter } from '../../interfaces/filter.interface';
 import {
   TasksManagerService,
-  ReadonlyTasksArray,
 } from 'src/app/services/tasks-manager.service';
+import { Task } from 'src/app/interfaces/task.interface';
 import { TasksFilterService } from 'src/app/services/tasks-filter.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './backlog-view.component.html',
   styleUrls: ['./backlog-view.component.scss'],
 })
-export class BacklogViewComponent implements OnInit {
+export class BacklogViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private tasksManager: TasksManagerService,
@@ -24,24 +25,29 @@ export class BacklogViewComponent implements OnInit {
 
   isLoading = true;
 
-  getFilters(): Filter[] {
-    return this.tasksFilters.getFilters();
-  }
+  private itemsCount = 0;
+  private itemsSubscription!: Subscription;
 
-  getItems(): ReadonlyTasksArray {
-    return this.tasksManager.getItems();
-  }
-
-  getFilteredItems(): ReadonlyTasksArray {
-    return this.tasksManager.getFilteredItems();
-  }
+  public filters$!: Observable<Filter[]>;
+  public filteredItems$!: Observable<Task[]>;
+  public items$!: Observable<Task[]>;
 
   ngOnInit(): void {
     setTimeout(() => this.isLoading = false, 500);
+    this.filters$ = this.tasksFilters.filters$;
+    this.items$ = this.tasksManager.items$;
+    this.filteredItems$ = this.tasksFilters.composeFilteredTasks$(this.items$);
+    this.itemsSubscription = this.items$.subscribe(
+      items => this.itemsCount = items.length,
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.itemsSubscription.unsubscribe();
   }
 
   isItemCardShowing(): boolean {
-    return this.getItems().length > 0 && !this.isLoading;
+    return this.itemsCount > 0 && !this.isLoading;
   }
 
   onFilterItemClick(filter: Filter, value: string): void {
