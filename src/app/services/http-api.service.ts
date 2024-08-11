@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Task } from '../interfaces/task.interface';
 import { environment } from 'src/environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Task, TaskId } from '../interfaces/task.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,19 +16,24 @@ export class HttpApiService {
     private httpClient: HttpClient) { }
 
   createTask(task: Task) {
-    return this.httpClient.post(this.api.tasksUrl, {...task, id: `${task.id}`});
+    const { ['id']: remove, ...taskData } = task;
+    return this.httpClient.post(this.api.tasksUrl, taskData);
   }
 
   updateTask(task: Task) {
     return this.httpClient.put(this.api.tasksUrl + '/' + task.id, task);
   }
 
-  deleteTask(id: number) {
+  deleteTask(id: TaskId) {
     return this.httpClient.delete(this.api.tasksUrl + '/' + id);
   }
 
   getTasks() {
     return this.httpClient.get(this.api.tasksUrl);
+  }
+
+  getTaskById(id: TaskId) {
+    return this.httpClient.get<Task[]>(this.api.tasksUrl, { params: new HttpParams().set('id', id) });
   }
 
 }

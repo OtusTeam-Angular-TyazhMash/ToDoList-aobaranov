@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Task, TaskStatus } from '../../interfaces/task.interface';
+import { Task, TaskId, TaskStatus } from '../../interfaces/task.interface';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 export type TasksListItemComponentMode = 'view' | 'edit' | undefined;
@@ -17,9 +17,9 @@ export class TasksListItemComponent {
 
   @Input() deletable = true;
 
-  @Output() deleted = new EventEmitter<number>();
+  @Output() deleted = new EventEmitter<TaskId>();
   @Output() edited = new EventEmitter<Task>();
-  @Output() canceled = new EventEmitter<number>();
+  @Output() canceled = new EventEmitter<TaskId>();
 
   get data(): Task {
     return this._data;

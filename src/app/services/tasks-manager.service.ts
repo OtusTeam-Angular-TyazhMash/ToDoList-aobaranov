@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Task, TaskStatus } from '../interfaces/task.interface';
+import { Task, TaskId, TaskStatus } from '../interfaces/task.interface';
 import { HttpApiService } from './http-api.service';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Observable, first, map } from 'rxjs';
 import { ToastService } from './toast.service';
 
 export type ReadonlyTaskItem = Readonly<Task>;
@@ -12,17 +12,12 @@ export type ReadonlyTasksArray = ReadonlyArray<ReadonlyTaskItem>;
 })
 export class TasksManagerService {
 
-  private _items: Task[] = [];
-
   public readonly dataLoaded$ = new BehaviorSubject<boolean>(false);
   public readonly dataLoading$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private httpApi: HttpApiService,
     private toastService: ToastService) { 
-      this.items$.subscribe(
-          items => this._items = items,
-      );
       this.loadItems();
   }
 
@@ -33,42 +28,26 @@ export class TasksManagerService {
     return this._items$.asObservable();
   }
 
-  private newItemId(): number {
-    let maxId = 0;
-    this._items.forEach(item => maxId = Math.max(maxId, item.id));
-    return maxId + 1;
-  }
-
   private loadItems(): void {
     this.dataLoading$.next(true);
-    this.httpApi.getTasks().pipe(map(
-      data => (data as Array<Task>).map(item => {
-          item.id = +item.id;
-          return item;
-        }),
-    )).subscribe({
+    this.httpApi.getTasks().subscribe({
       next: items => {
         this.dataLoading$.next(false);
-        this._items = items;
-        this._items$.next(items);
+        this._items$.next(items as Task[]);
         this.dataLoaded$.next(true);
       },
       error: () => {
         this.toastService.showToast($localize`Items loading failed`);
         this.dataLoading$.next(false);
-        this._items = [];
         this._items$.next([]);
         this.dataLoaded$.next(false);
       },
     })
   }
-
-  getItemById(id: number): Task | undefined {
-    const item = this._items.find(item => item.id === id);
-    if (item) {
-      return Object.assign({}, item);
-    }
-    return;
+  
+  getItemById(id: TaskId): Observable<Task | undefined> {
+    return this.httpApi.getTaskById(id).pipe(
+        map(result => result.length > 0 ? result[0] : undefined));
   }
 
   addItem(text: string, description: string): boolean {
@@ -78,7 +57,7 @@ export class TasksManagerService {
 
     this.httpApi.createTask(
       {
-        id: this.newItemId(),
+        id: '',
         text: text,
         description: description,
         status: TaskStatus.Todo,
@@ -94,7 +73,7 @@ export class TasksManagerService {
     return this.addItem(task.text, task.description);
   }
 
-  deleteItemById(id: number): boolean {
+  deleteItemById(id: TaskId): boolean {
     this.httpApi.deleteTask(id).subscribe({
       next: () => this.loadItems(),
       error: () => this.toastService.showToast($localize`Item deletion failed`),
@@ -102,7 +81,7 @@ export class TasksManagerService {
     return true;
   }
 
-  editItemById(id: number, text: string, description: string, status: TaskStatus): boolean {
+  editItemById(id: TaskId, text: string, description: string, status: TaskStatus): boolean {
     if (!this.isItemDataValid(text, description)) {
       return false;
     }

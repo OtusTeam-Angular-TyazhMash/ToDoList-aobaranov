@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Task, TaskStatus, LocalTaskStatus } from 'src/app/interfaces/task.interface';
+import { BehaviorSubject, Observable, Subscription, switchMap } from 'rxjs';
+import { Task, TaskId, TaskStatus, LocalTaskStatus } from 'src/app/interfaces/task.interface';
 import { TasksManagerService } from 'src/app/services/tasks-manager.service';
 
 @Component({
@@ -32,13 +32,13 @@ export class TaskCardViewComponent implements OnDestroy, OnInit {
     this.routeParamsSubscription = this.activatedRoute.params.subscribe(
       params => {
         this.params = params;
-        this.loadDataById(+this.params['id']);
+        this.loadDataById(this.params['id']);
       },
     );
     this.dataSubscription = this.tasksManager.dataLoaded$.subscribe(
       () => {
         if (this.params) {
-          this.loadDataById(+this.params['id']);
+          this.loadDataById(this.params['id']);
         }
       },
     );
@@ -49,11 +49,11 @@ export class TaskCardViewComponent implements OnDestroy, OnInit {
     this.dataSubscription.unsubscribe();
   }
 
-  private loadDataById(id: number): void {
-    this.data = this.tasksManager.getItemById(id);
-    if (!this.data) {
-      this.dataNotFound();
-    }
+  private loadDataById(id: TaskId): void {
+    this.tasksManager.getItemById(id).subscribe({
+      next: (item) => this.data = item,
+      error: () => this.dataNotFound()
+    });
   }
 
   getStatuses(): TaskStatus[] {

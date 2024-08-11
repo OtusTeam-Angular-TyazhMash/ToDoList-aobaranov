@@ -9,9 +9,10 @@ export const LocalTaskStatus: { [key: string]: string} = {
   'InProgress': $localize`InProgress`,
   'Completed': $localize`Completed`
 }
+export type TaskId = string;
 
 export interface Task {
-  id: number,
+  id: TaskId,
   text: string,
   description: string,
   status: TaskStatus
