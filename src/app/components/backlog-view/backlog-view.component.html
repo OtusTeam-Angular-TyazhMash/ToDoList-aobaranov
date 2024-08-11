@@ -1,7 +1,7 @@
 <div class="filters-container" [hidden]="!isItemCardShowing()">
     <ng-container *ngFor="let filter of filters$ | async">
         <div [class]="filter.type">
-            <span>{{ filter.name }}:</span>
+            <span>{{ filter.title }}:</span>
             <ul>
                 <li *ngFor="let value of filter.values">
                     <app-button 
@@ -9,7 +9,7 @@
                         styleType="transparent"
                         [checked]="filter.selectedValues.includes(value)"
                         (clicked)="onFilterItemClick(filter, value)">
-                        {{ value }}
+                        {{ filter.valuesTitles[value] }}
                     </app-button> 
                 </li>
             </ul>

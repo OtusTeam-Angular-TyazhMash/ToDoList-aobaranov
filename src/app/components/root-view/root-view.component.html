@@ -1,5 +1,15 @@
 <div class="app-header">
-    <h1>Tasks Board</h1>
+    <h1 i18n>Tasks Board</h1>
+    <select 
+        class="locale-selector"
+        (change)="onChangeLocale($event)">
+        <option *ngFor="let locale of localesList" 
+            class="locale-item"
+            [value]="locale.url"
+            [selected]="locale.code === appLocale">
+            {{ locale.title }}
+        </option>
+    </select>
     <app-navigation/>
 </div>
 <div class="app-content">

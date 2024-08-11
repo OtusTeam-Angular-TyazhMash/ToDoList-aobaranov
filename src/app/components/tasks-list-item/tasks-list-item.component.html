@@ -2,6 +2,8 @@
     <span>{{ data.text }}</span>
     <span class="task-status" [ngClass]="data.status"></span>
     <app-button 
+        i18n="@@Delete"
+        i18n-tooltip
         *ngIf="deletable"
         styleType="delete" 
         [tooltip]="'delete this item'"
@@ -18,6 +20,8 @@
         (keydown.esc)="onCancelClick()"/> 
     <span class="task-status" [ngClass]="data.status"></span>
     <app-button 
+        i18n="@@Save"
+        i18n-tooltip
         styleType="edit" 
         [tooltip]="'save changes'"
         (clicked)="onSaveClick()">    

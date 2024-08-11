@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, LOCALE_ID, Inject } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 
 @Component({
@@ -7,6 +7,7 @@ import { Router, Routes } from '@angular/router';
   styleUrls: ['./navigation.component.scss'],
 })
 export class NavigationComponent {
+
   constructor(
     private router: Router) { }
 

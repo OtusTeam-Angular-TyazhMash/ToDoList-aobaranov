@@ -11,7 +11,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    title: 'Backlog',
+    title: $localize`Backlog`,
     path: 'backlog',
     component: BacklogViewComponent,
     children: [
@@ -22,7 +22,7 @@ const routes: Routes = [
     ],
   },
   {
-    title: 'Board',
+    title: $localize`Board`,
     path: 'board',
     component: BoardViewComponent,
     children: [
@@ -34,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'backlog',
   },
 ]
 

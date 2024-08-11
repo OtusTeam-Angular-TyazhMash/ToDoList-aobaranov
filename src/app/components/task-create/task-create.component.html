@@ -1,6 +1,7 @@
 <form #createForm="ngForm" (ngSubmit)="onSubmit(createForm)">
     <mat-form-field>
         <input 
+            i18n-placeholder
             matInput
             #textInput
             type="text" 
@@ -11,6 +12,7 @@
     </mat-form-field>
     <mat-form-field>
         <textarea
+            i18n-placeholder
             matInput
             name="description"
             rows="3"
@@ -19,6 +21,8 @@
             (keydown.control.enter)="onSubmit(createForm)"></textarea>
     </mat-form-field>
     <app-button 
+        i18n="@@Add"
+        i18n-tooltip
         tooltip="Add new task"
         styleType="add"  
         type="submit"

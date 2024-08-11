@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Task, TaskStatus } from 'src/app/interfaces/task.interface';
+import { Task, TaskStatus, LocalTaskStatus } from 'src/app/interfaces/task.interface';
 import { TasksManagerService } from 'src/app/services/tasks-manager.service';
 
 interface BoardColumn {
@@ -23,7 +23,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     private tasksManager: TasksManagerService) { }
 
   private columns: BoardColumn[] = Object.values(TaskStatus).map(status => 
-    { return {title: status, associatedStatus: status}; });
+    { return {title: LocalTaskStatus[status], associatedStatus: status}; });
 
   getColumns(): BoardColumn[] {
     return this.columns;

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"ng serve\" \"json-server db.json\"",
+    "start": "concurrently \"ng serve --configuration=en --port 4200\" \"ng serve --configuration=ru --port 4201\" \"json-server db.json\"",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -36,6 +36,7 @@
     "@angular-eslint/template-parser": "16.3.1",
     "@angular/cli": "^16.2.13",
     "@angular/compiler-cli": "^16.2.0",
+    "@angular/localize": "^16.2.12",
     "@types/jasmine": "~4.3.0",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",

@@ -40,7 +40,7 @@ export class TasksListComponent {
   onDeleteItem(id: number): void {
     if (this.allowDelete) {
       if (this.tasksManager.deleteItemById(id)) {
-        this.toastService.showToast('item deleted');
+        this.toastService.showToast($localize`item deleted`);
       }
     }
   }
@@ -49,7 +49,7 @@ export class TasksListComponent {
     if (this.allowEdit) {
       const itemEdited = this.tasksManager.editItem(item);
       if (itemEdited) {
-        this.toastService.showToast('item edited');
+        this.toastService.showToast($localize`item edited`);
         this.editingItemId = null;
       }
     }
