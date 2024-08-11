@@ -4,8 +4,10 @@ export enum TaskStatus {
   Completed = 'Completed'
 }
 
+export type TaskId = string;
+
 export interface Task {
-  id: number,
+  id: TaskId,
   text: string,
   description: string,
   status: TaskStatus

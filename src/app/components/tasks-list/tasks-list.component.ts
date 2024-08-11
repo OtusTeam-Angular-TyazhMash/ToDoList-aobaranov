@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Task } from 'src/app/interfaces/task.interface';
+import { Task, TaskId } from 'src/app/interfaces/task.interface';
 import { TasksManagerService } from 'src/app/services/tasks-manager.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -25,19 +25,19 @@ export class TasksListComponent {
   @Input() hidden: boolean | undefined;
   @Input() taskRoute: string | null = null;
 
-  private editingItemId: number | null = null;
+  private editingItemId: TaskId | null = null;
 
-  onDblClickItem(id: number): void {
+  onDblClickItem(id: TaskId): void {
     if (this.allowEdit) {
       this.editingItemId = id;
     }
   }
 
-  isItemEditing(id: number): boolean {
+  isItemEditing(id: TaskId): boolean {
     return this.allowEdit && (this.editingItemId === id);
   }
 
-  onDeleteItem(id: number): void {
+  onDeleteItem(id: TaskId): void {
     if (this.allowDelete) {
       if (this.tasksManager.deleteItemById(id)) {
         this.toastService.showToast('item deleted');
@@ -55,12 +55,13 @@ export class TasksListComponent {
     }
   }
 
-  onCancelEditItem(id: number): void {
+  onCancelEditItem(id: TaskId): void {
     this.editingItemId = null;
   }
 
-  getRouterLink(id: number): string[] {
+  getRouterLink(id: TaskId): string[] {
     if (this.taskRoute) {
+      // console.log('Composing task route ', this.taskRoute, ', ', id.toString());
       return [this.taskRoute, id.toString()];
     } else {
       return [id.toString()];
