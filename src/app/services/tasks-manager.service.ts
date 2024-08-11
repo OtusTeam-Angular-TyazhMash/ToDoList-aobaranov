@@ -28,13 +28,6 @@ export class TasksManagerService {
     return this._items$.asObservable();
   }
 
-  // private newItemId(): number {
-  //   let maxId = 0;
-    
-  //   // this.$items.forEach(item => maxId = Math.max(maxId, item.id));
-  //   return maxId + 1;
-  // }
-
   private loadItems(): void {
     this.dataLoading$.next(true);
     this.httpApi.getTasks().subscribe({
@@ -51,15 +44,6 @@ export class TasksManagerService {
       },
     })
   }
-
-  // getItemById(id: TaskId): Task | undefined {
-  //   console.log('Getting item by id ', id);
-  //   this.httpApi.getTaskById(id).subscribe({
-  //     next: (tasks) => { return tasks[0]; },
-  //     error: () => this.toastService.showToast('Failed to get item by id')
-  //   });
-  //   return;
-  // }
   
   getItemById(id: TaskId): Observable<Task | undefined> {
     return this.httpApi.getTaskById(id).pipe(

@@ -33,9 +33,7 @@ export class HttpApiService {
   }
 
   getTaskById(id: TaskId) {
-    const params = new HttpParams().set('id', id);
-    console.log('http get task by id: ', params);
-    return this.httpClient.get<Task[]>(this.api.tasksUrl, { params: params });
+    return this.httpClient.get<Task[]>(this.api.tasksUrl, { params: new HttpParams().set('id', id) });
   }
 
 }

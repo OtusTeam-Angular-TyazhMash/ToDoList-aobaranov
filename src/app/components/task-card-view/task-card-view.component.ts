@@ -18,7 +18,6 @@ export class TaskCardViewComponent implements OnDestroy, OnInit {
   @Input() data: Task | null | undefined = null;
 
   private dataNotFound(): void {
-    console.log('Task card data not found, redirecting');
     this.router.navigate(['..']);
   }
 

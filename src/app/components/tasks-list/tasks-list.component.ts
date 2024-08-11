@@ -61,7 +61,6 @@ export class TasksListComponent {
 
   getRouterLink(id: TaskId): string[] {
     if (this.taskRoute) {
-      // console.log('Composing task route ', this.taskRoute, ', ', id.toString());
       return [this.taskRoute, id.toString()];
     } else {
       return [id.toString()];
