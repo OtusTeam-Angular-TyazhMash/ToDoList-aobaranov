@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subscription, switchMap } from 'rxjs';
-import { Task, TaskId, TaskStatus } from 'src/app/interfaces/task.interface';
+import { Task, TaskId, TaskStatus, LocalTaskStatus } from 'src/app/interfaces/task.interface';
 import { TasksManagerService } from 'src/app/services/tasks-manager.service';
 
 @Component({
@@ -14,6 +14,8 @@ export class TaskCardViewComponent implements OnDestroy, OnInit {
   private routeParamsSubscription!: Subscription;
   private dataSubscription!: Subscription;
   private params: Params | null = null;
+
+  public readonly localeStatus = LocalTaskStatus;
 
   @Input() data: Task | null | undefined = null;
 

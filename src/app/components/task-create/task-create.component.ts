@@ -31,7 +31,7 @@ export class TaskCreateComponent {
       this.newItemDescription);
 
     if (itemAdded) {
-      this.toastService.showToast('new item added');
+      this.toastService.showToast($localize`new item added`);
       form.resetForm();
       this.textInput?.nativeElement.focus();
     }

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="5194912054053114732" datatype="html">
+        <source>Backlog</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-routing.module.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      <target>Задачи</target></trans-unit>
+      <trans-unit id="467515590191938529" datatype="html">
+        <source>Board</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app-routing.module.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      <target>Доска</target></trans-unit>
+      <trans-unit id="3027794085626034080" datatype="html">
+        <source>Tasks Board</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/root-view/root-view.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      <target>Список задач</target></trans-unit>
+      <trans-unit id="6896245792698395855" datatype="html">
+        <source>Add new task</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/task-create/task-create.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/task-create/task-create.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      <target>Добавить новую задачу</target></trans-unit>
+      <trans-unit id="4902817035128594900" datatype="html">
+        <source>Description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/task-create/task-create.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      <target>Описание</target></trans-unit>
+      <trans-unit id="6251850508693243463" datatype="html">
+        <source>new item added</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/task-create/task-create.component.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      <target>новая задача добавлена</target></trans-unit>
+      <trans-unit id="8999117224594003134" datatype="html">
+        <source>item deleted</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks-list/tasks-list.component.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      <target>задача удалена</target></trans-unit>
+      <trans-unit id="5428434484382403811" datatype="html">
+        <source>item edited</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks-list/tasks-list.component.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      <target>задача изменена</target></trans-unit>
+      <trans-unit id="9047542578653206567" datatype="html">
+        <source>Todo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/interfaces/task.interface.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      <target>В очереди</target></trans-unit>
+      <trans-unit id="1924797262658924195" datatype="html">
+        <source>InProgress</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/interfaces/task.interface.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      <target>В работе</target></trans-unit>
+      <trans-unit id="1161299114153631702" datatype="html">
+        <source>Completed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/interfaces/task.interface.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      <target>Выполнена</target></trans-unit>
+      <trans-unit id="5611592591303869712" datatype="html">
+        <source>Status</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/services/tasks-filter.service.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      <target>Статус</target></trans-unit>
+      <trans-unit id="3011486930265155400" datatype="html">
+        <source>Items loading failed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/services/tasks-manager.service.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      <target>Ошибка при загрузке данных</target></trans-unit>
+      <trans-unit id="7709542094844743144" datatype="html">
+        <source>Item creation failed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/services/tasks-manager.service.ts</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+      <target>Ошибка при создании задачи</target></trans-unit>
+      <trans-unit id="2826824732938063918" datatype="html">
+        <source>Item deletion failed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/services/tasks-manager.service.ts</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      <target>Ошибка при удалении задачи</target></trans-unit>
+      <trans-unit id="7625577956952221429" datatype="html">
+        <source>Item editing failed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/services/tasks-manager.service.ts</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      <target>Ошибка при изменении задачи</target></trans-unit>
+      <trans-unit id="Add" datatype="html">
+        <source> Add </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/task-create/task-create.component.html</context>
+          <context context-type="linenumber">29,31</context>
+        </context-group>
+        <target>Добавить</target>
+      </trans-unit>
+      <trans-unit id="Delete" datatype="html">
+        <source> Delete </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks-list-item/tasks-list-item.component.html</context>
+          <context context-type="linenumber">10,12</context>
+        </context-group>
+        <target>Удалить</target>
+      </trans-unit>
+      <trans-unit id="Save" datatype="html">
+        <source> Save </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/tasks-list-item/tasks-list-item.component.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+        <target>Изменить</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

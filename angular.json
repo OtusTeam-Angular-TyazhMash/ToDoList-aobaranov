@@ -10,6 +10,18 @@
           "style": "scss"
         }
       },
+      "i18n": {
+        "sourceLocale": { 
+          "code":"en-US", 
+          "baseHref": "/en/" 
+        },
+        "locales": {
+          "ru": {
+            "translation": "src/locale/messages.ru.xlf",
+            "baseHref": "/ru/"
+          }
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -17,6 +29,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize": true,
             "outputPath": "dist/tasks-board-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -64,6 +77,12 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "ru": {
+              "localize": ["ru"]
+            },
+            "en": {
+              "localize": ["en-US"]
             }
           },
           "defaultConfiguration": "production"
@@ -76,9 +95,15 @@
             },
             "development": {
               "browserTarget": "tasks-board-app:build:development"
+            },
+            "ru": {
+              "browserTarget": "tasks-board-app:build:development,ru"
+            },
+            "en": {
+              "browserTarget": "tasks-board-app:build:development,en"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "en"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

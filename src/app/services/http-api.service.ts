@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Task, TaskId } from '../interfaces/task.interface';
-import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',

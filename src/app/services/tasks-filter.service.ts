@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Task, TaskStatus } from '../interfaces/task.interface';
+import { Task, TaskStatus, LocalTaskStatus } from '../interfaces/task.interface';
 import { Filter } from '../interfaces/filter.interface';
 import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 
@@ -11,9 +11,11 @@ export class TasksFilterService {
   private filters: Filter[] = [
     {
       name: 'Status',
+      title: $localize`Status`,
       type: 'buttons-list',
       targetField: 'status',
       values: Object.values(TaskStatus),
+      valuesTitles: LocalTaskStatus,
       selectedValues: [],
     },
   ];

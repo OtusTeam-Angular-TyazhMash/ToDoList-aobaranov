@@ -37,7 +37,7 @@ export class TasksManagerService {
         this.dataLoaded$.next(true);
       },
       error: () => {
-        this.toastService.showToast('Items loading failed');
+        this.toastService.showToast($localize`Items loading failed`);
         this.dataLoading$.next(false);
         this._items$.next([]);
         this.dataLoaded$.next(false);
@@ -63,7 +63,7 @@ export class TasksManagerService {
         status: TaskStatus.Todo,
       }).subscribe({
         next: () => this.loadItems(),
-        error: () => this.toastService.showToast('Item creation failed'),
+        error: () => this.toastService.showToast($localize`Item creation failed`),
       });
     
     return true;
@@ -76,7 +76,7 @@ export class TasksManagerService {
   deleteItemById(id: TaskId): boolean {
     this.httpApi.deleteTask(id).subscribe({
       next: () => this.loadItems(),
-      error: () => this.toastService.showToast('Item deletion failed'),
+      error: () => this.toastService.showToast($localize`Item deletion failed`),
     })
     return true;
   }
@@ -95,7 +95,7 @@ export class TasksManagerService {
       },
     ).subscribe({
       next: () => this.loadItems(),
-      error: () => this.toastService.showToast('Item editing failed'),
+      error: () => this.toastService.showToast($localize`Item editing failed`),
     });
     return true;
   }

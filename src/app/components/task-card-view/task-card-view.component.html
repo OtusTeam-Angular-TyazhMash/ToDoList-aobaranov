@@ -8,7 +8,7 @@
             [styleType]="'transparent'"
             [checked]="data?.status === status"
             (clicked)="onStatusClick(status)">
-            {{ status }}
+            {{ localeStatus[status] }}
         </app-button>
     </li>
 </ul>
