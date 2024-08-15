@@ -1,0 +1,32 @@
+<div class="filters-container" [hidden]="!isItemCardShowing()">
+    <ng-container *ngFor="let filter of filters$ | async">
+        <div [class]="filter.type">
+            <span>{{ filter.name }}:</span>
+            <ul>
+                <li *ngFor="let value of filter.values">
+                    <app-button 
+                        class="filter-item"
+                        styleType="transparent"
+                        [checked]="filter.selectedValues.includes(value)"
+                        (clicked)="onFilterItemClick(filter, value)">
+                        {{ value }}
+                    </app-button> 
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</div>
+<app-tasks-list
+    class="tasks-container" 
+    [items]="filteredItems$ | async"
+    taskRoute="task"
+    [hidden]="!isItemCardShowing()"/>
+<app-task-create-item
+    class="task-item-input"
+    [class.centered]="!isItemCardShowing()"/>
+<div 
+    class="task-card-container"
+    [hidden]="!isItemCardShowing()">
+    <router-outlet></router-outlet> 
+</div>
+<app-loading-spinner *ngIf="isLoading"/>

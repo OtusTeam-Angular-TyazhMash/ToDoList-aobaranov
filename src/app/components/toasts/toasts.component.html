@@ -1,0 +1,5 @@
+<ul class="toasts-container">
+    <li *ngFor="let toast of toasts$ | async" class="toast">
+        {{ toast }}
+    </li>
+</ul>

@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    {
+      "id": "0be4",
+      "text": "Task 1",
+      "description": "Description for task 1",
+      "status": "Todo"
+    },
+    {
+      "id": "1421",
+      "text": "Task 2",
+      "description": "Description for task 2",
+      "status": "InProgress"
+    },
+    {
+      "id": "662f",
+      "text": "Task 3",
+      "description": "Description for task 3",
+      "status": "Todo"
+    }
+  ]
+}

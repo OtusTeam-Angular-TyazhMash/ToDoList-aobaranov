@@ -1,0 +1,14 @@
+<div 
+    class="board-column" 
+    *ngFor="let column of getColumns()">
+    <h5 class="board-column-header"
+        [ngClass]="column.associatedStatus">
+        {{ column.title }}
+    </h5>
+    <app-tasks-list
+        class="board-column-items"
+        [items]="getColumnItems(column)"
+        taskRoute="task"
+        [allowDelete]="false"
+        [allowEdit]="false"/>
+</div>

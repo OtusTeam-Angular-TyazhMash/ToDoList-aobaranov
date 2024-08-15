@@ -1,0 +1,22 @@
+<ul *ngIf="!hidden"
+    class="tasks-container">
+    <li *ngFor="let item of items" 
+        [tooltip]="item.description || item.text"
+        [tooltipDelay]="3000"
+        class="task-item" 
+        tabindex="0"
+        (dblclick)="onDblClickItem(item.id)"
+        (keydown.control.space)="onDblClickItem(item.id)"
+        (keydown.esc)="onCancelEditItem(item.id)"
+        [routerLink]="getRouterLink(item.id)"
+        [routerLinkActive]="'selected'">
+        <app-tasks-list-item 
+            [data]="item" 
+            [deletable]="allowDelete"
+            [mode]="isItemEditing(item.id) ? 'edit' : 'view'"
+            (edited)="onEditItem($event)"
+            (deleted)="onDeleteItem($event)"
+            (canceled)="onCancelEditItem($event)">
+        </app-tasks-list-item>
+    </li>
+</ul>

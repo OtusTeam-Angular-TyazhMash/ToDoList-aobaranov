@@ -7,13 +7,14 @@ import {
   Input,
   ApplicationRef, 
   HostListener,
-  EmbeddedViewRef} from '@angular/core';
+  EmbeddedViewRef,
+  OnDestroy} from '@angular/core';
 import { TooltipComponent } from '../components/tooltip/tooltip.component';
 
 @Directive({
   selector: '[tooltip]',
 })
-export class TooltipDirective {
+export class TooltipDirective implements OnDestroy {
 
   @Input() tooltip = '';
 
@@ -73,6 +74,7 @@ export class TooltipDirective {
     if (this.componentRef !== null) {
       if (this.tooltipShowTimer) {
         clearTimeout(this.tooltipShowTimer);
+        this.tooltipShowTimer = null;
       }
       this.appRef.detachView(this.componentRef.hostView);
       this.componentRef.destroy();

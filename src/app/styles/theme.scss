@@ -1,0 +1,58 @@
+$border-color: lightgray;
+$border-radius: 8px;
+
+$standard-gap: 8px;
+
+$button-border-radius: 5px;
+
+$card-color: white;
+
+$list-item-color: $card-color;
+$list-item-color-hover: #eff0ed;
+$list-item-color-selected: #dbdcd9;
+$list-item-outline-color-selected: #8067AE;
+
+$task-status-todo-color: none;
+$task-status-inprogress-color: #579dff;
+$task-status-completed-color: #4bce97;
+
+$todo-input-form-max-height: 39vh;
+
+@mixin card-borders($color: $border-color, $width: 1px) {
+    border-style: solid;
+    border-radius: $border-radius;
+    border-width: $width;
+    border-color: $color;
+}
+
+@mixin card-shadow {
+    box-shadow: 
+        rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, 
+        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; 
+}
+
+@mixin form-content-background {
+    background-color: #f9fcff;
+    background-image: linear-gradient(147deg, #f9fcff 0%, #dee4ea 74%);
+}
+
+@mixin button-borders {
+    border-style: none;
+    border-radius: $button-border-radius;
+    outline: none;
+}
+
+@mixin standard-button {
+    margin-left: $standard-gap;
+    
+    float: right;
+
+    min-width: 13%;
+    min-height: 3 * $standard-gap;
+}
+
+@mixin list-item-selected-outline {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: $list-item-outline-color-selected;
+}
